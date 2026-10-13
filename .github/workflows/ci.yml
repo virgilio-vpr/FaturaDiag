@@ -47,7 +47,8 @@ jobs:
         run: uv sync --project backend --locked
 
       - name: Apply database migrations
-        run: uv run --project backend alembic upgrade head
+        working-directory: backend
+        run: uv run alembic upgrade head
 
       - name: Run lint, type checks, import rules, and tests
         run: make check

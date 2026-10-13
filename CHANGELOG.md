@@ -7,3 +7,4 @@
 - Adicionadas configuração FastAPI, readiness DB/storage, CORS, request ID e respostas de erro RFC 9457.
 - Migrados os testes HTTP para HTTPX ASGITransport, removendo o uso deprecado do Starlette TestClient.
 - Adicionado workflow de CI com PostgreSQL, migrações Alembic e gates de lint, tipos, dependências e testes do backend.
+- Corrigido o diretório de execução da migração Alembic no CI para carregar `backend/alembic.ini`.
