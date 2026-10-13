@@ -1,0 +1,1 @@
+"""Aplicacao backend do FaturaDiag."""

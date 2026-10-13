@@ -1,0 +1,61 @@
+[project]
+name = "faturadiag"
+version = "0.1.0"
+description = "Diagnostico energetico de faturas do Grupo A"
+requires-python = ">=3.12"
+dependencies = [
+    "alembic",
+    "fastapi",
+    "psycopg[binary]",
+    "pydantic-settings",
+    "sqlalchemy",
+    "structlog",
+    "uvicorn[standard]",
+]
+
+[dependency-groups]
+dev = [
+    "httpx",
+    "import-linter",
+    "mypy",
+    "pre-commit",
+    "pytest",
+    "pytest-cov",
+    "ruff",
+]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-ra"
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+src = ["app", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+
+[tool.importlinter]
+root_package = "app"
+include_external_packages = true
+
+[[tool.importlinter.contracts]]
+name = "Energy domain remains independent from infrastructure"
+type = "forbidden"
+source_modules = ["app.domain"]
+forbidden_modules = [
+    "app.core",
+    "app.integrations",
+    "app.modules",
+    "fastapi",
+    "sqlalchemy",
+]

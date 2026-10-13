@@ -1172,11 +1172,11 @@ Acurácia por campo e distribuidora:
 
 ### Fase 0 — Fundação
 
-- [ ] **T-0.1 Repositório e ferramentas.** Criar estrutura §6 (com `.gitkeep`), `pyproject.toml` (uv), ruff, mypy, pytest, import-linter, pre-commit, `Makefile` (Anexo G), `.gitignore`, `README.md`, `.env.example` (Anexo A). *Aceite:* `make lint` e `make test` passam com um teste *smoke*.
-- [ ] **T-0.2 Docker Compose.** Serviços `db`, `minio`, `backend` (hot reload), `frontend` (Anexos B e C) com *healthchecks*. *Aceite:* `make up` sobe tudo; `curl localhost:8000/health` → 200.
-- [ ] **T-0.3 Esqueleto FastAPI.** `pydantic-settings`, logging estruturado, `request_id`, tratador de erros `problem+json`, CORS, `/health`, `/ready`. *Aceite:* testes do formato de erro e dos endpoints de saúde.
-- [ ] **T-0.4 Banco e migrações.** `db/base.py`, sessão, *mixins* (tenant, timestamps, soft delete), Alembic, migração inicial. *Aceite:* `make migrate` aplica; teste de integração conecta ao Postgres.
-- [ ] **T-0.5 CI.** Workflow conforme §15. *Aceite:* pipeline verde.
+- [x] **T-0.1 Repositório e ferramentas.** Criar estrutura §6 (com `.gitkeep`), `pyproject.toml` (uv), ruff, mypy, pytest, import-linter, pre-commit, `Makefile` (Anexo G), `.gitignore`, `README.md`, `.env.example` (Anexo A). *Aceite:* `make lint` e `make test` passam com um teste *smoke*.
+- [x] **T-0.2 Docker Compose.** Serviços `db`, storage compatível com S3, `backend` (hot reload), `frontend` (Anexos B e C) com *healthchecks*. *Aceite:* `make up` sobe tudo; `curl localhost:8000/health` → 200. O ambiente de desenvolvimento usa RustFS.
+- [x] **T-0.3 Esqueleto FastAPI.** `pydantic-settings`, logging estruturado, `request_id`, tratador de erros `problem+json`, CORS, `/health`, `/ready`. *Aceite:* testes do formato de erro e dos endpoints de saúde.
+- [x] **T-0.4 Banco e migrações.** `db/base.py`, sessão, *mixins* (tenant, timestamps, soft delete), Alembic, migração inicial. *Aceite:* `make migrate` aplica; teste de integração conecta ao Postgres.
+- [x] **T-0.5 CI.** Workflow conforme §15. *Aceite:* pipeline verde.
 
 ### Fase 1 — Identidade e multi-tenancy
 
