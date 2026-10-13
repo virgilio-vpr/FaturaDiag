@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: energydiag
+          POSTGRES_PASSWORD: energydiag
+          POSTGRES_DB: energydiag
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U energydiag -d energydiag"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql+psycopg://energydiag:energydiag@localhost:5432/energydiag
+      APP_ENV: test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: backend/uv.lock
+
+      - name: Install locked dependencies
+        run: uv sync --project backend --locked
+
+      - name: Apply database migrations
+        run: uv run --project backend alembic upgrade head
+
+      - name: Run lint, type checks, import rules, and tests
+        run: make check
