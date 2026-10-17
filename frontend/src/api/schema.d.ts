@@ -353,10 +353,138 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/diagnosticos": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Post Diagnostico */
+        post: operations["post_diagnostico_api_v1_diagnosticos_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/diagnosticos/{diagnostico_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Diagnostico */
+        get: operations["get_diagnostico_api_v1_diagnosticos__diagnostico_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Patch Diagnostico */
+        patch: operations["patch_diagnostico_api_v1_diagnosticos__diagnostico_id__patch"];
+        trace?: never;
+    };
+    "/api/v1/diagnosticos/{diagnostico_id}/revisar": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Post Revisar */
+        post: operations["post_revisar_api_v1_diagnosticos__diagnostico_id__revisar_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/diagnosticos/{diagnostico_id}/simulacoes-acl": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Post Simulacao Acl Persistida */
+        post: operations["post_simulacao_acl_persistida_api_v1_diagnosticos__diagnostico_id__simulacoes_acl_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/simulacoes/demanda": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Post Simulacao Demanda */
+        post: operations["post_simulacao_demanda_api_v1_simulacoes_demanda_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/simulacoes/acl": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Post Simulacao Acl */
+        post: operations["post_simulacao_acl_api_v1_simulacoes_acl_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** AchadoResponse */
+        AchadoResponse: {
+            /** Ordem */
+            ordem: number;
+            /** Codigo */
+            codigo: string;
+            /** Severidade */
+            severidade: string;
+            /** Titulo */
+            titulo: string;
+            /** Descricao */
+            descricao: string;
+            /** Economia Anual */
+            economia_anual: string | null;
+            /** Recomendacao */
+            recomendacao: string;
+            /** Evidencias */
+            evidencias: string[];
+            /** Premissas */
+            premissas: string[];
+            /** Trace */
+            trace: {
+                [key: string]: unknown;
+            };
+        };
         /**
          * AmbienteUnidade
          * @enum {string}
@@ -381,6 +509,13 @@ export interface components {
          * @enum {string}
          */
         CategoriaItem: "DEMANDA" | "DEMANDA_ULTRAPASSAGEM" | "CONSUMO_TUSD" | "CONSUMO_TE" | "ENERGIA_REATIVA_EXCEDENTE" | "DEMANDA_REATIVA_EXCEDENTE" | "BANDEIRA" | "ILUMINACAO_PUBLICA" | "MULTA_JUROS" | "AJUSTE_CREDITO_DEBITO" | "TRIBUTO_INFORMATIVO" | "OUTROS";
+        /** CenarioPrecoSchema */
+        CenarioPrecoSchema: {
+            /** Nome */
+            nome: string;
+            /** Preco Rs Mwh */
+            preco_rs_mwh: number | string;
+        };
         /** ClienteCreate */
         ClienteCreate: {
             /** Razao Social */
@@ -561,6 +696,139 @@ export interface components {
             valor_total?: number | string | null;
             /** Itens */
             itens?: components["schemas"]["ItemDados"][] | null;
+        };
+        /** DiagnosticoCreate */
+        DiagnosticoCreate: {
+            /**
+             * Uc Id
+             * Format: uuid
+             */
+            uc_id: string;
+            /**
+             * Escopo
+             * @enum {string}
+             */
+            escopo: "FATURA_UNICA" | "HISTORICO";
+            /** Fatura Id */
+            fatura_id?: string | null;
+            /** Periodo Inicio */
+            periodo_inicio?: string | null;
+            /** Periodo Fim */
+            periodo_fim?: string | null;
+            acl?: components["schemas"]["SimulacaoACLRequest"] | null;
+        };
+        /** DiagnosticoPatch */
+        DiagnosticoPatch: {
+            /** Notas */
+            notas: string | null;
+        };
+        /** DiagnosticoResponse */
+        DiagnosticoResponse: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Uc Id
+             * Format: uuid
+             */
+            uc_id: string;
+            /** Escopo */
+            escopo: string;
+            /**
+             * Periodo Inicio
+             * Format: date
+             */
+            periodo_inicio: string;
+            /**
+             * Periodo Fim
+             * Format: date
+             */
+            periodo_fim: string;
+            /** Status */
+            status: string;
+            /** Versao Motor */
+            versao_motor: string;
+            /** Economia Mensal Estimada */
+            economia_mensal_estimada: string;
+            /** Economia Anual Estimada */
+            economia_anual_estimada: string;
+            /** Notas */
+            notas: string | null;
+            /** Criado Por */
+            criado_por: string | null;
+            /** Revisado Por */
+            revisado_por: string | null;
+            /** Revisado Em */
+            revisado_em: string | null;
+            /**
+             * Criado Em
+             * Format: date-time
+             */
+            criado_em: string;
+            /** Resultado */
+            resultado: {
+                [key: string]: unknown;
+            };
+            /** Fontes */
+            fontes: {
+                [key: string]: unknown;
+            };
+            /** Premissas Montagem */
+            premissas_montagem: string[];
+            /** Parametros Pendentes */
+            parametros_pendentes: string[];
+            /** Achados */
+            achados: components["schemas"]["AchadoResponse"][];
+            /** Simulacoes Acl */
+            simulacoes_acl: components["schemas"]["SimulacaoACLResponse"][];
+        };
+        /** EntradaACLSchema */
+        EntradaACLSchema: {
+            /** Consumo Mwh Mes */
+            consumo_mwh_mes: number | string;
+            /** Te Cativa Rs Mwh */
+            te_cativa_rs_mwh: number | string;
+            /** Encargos Rs Mwh */
+            encargos_rs_mwh: number | string;
+            /** Custos Fixos Mes */
+            custos_fixos_mes: number | string;
+            /**
+             * Tusd Demanda Mes
+             * @default 0
+             */
+            tusd_demanda_mes: number | string;
+            /**
+             * Tusd Consumo Mes
+             * @default 0
+             */
+            tusd_consumo_mes: number | string;
+            /**
+             * Bandeira Mes
+             * @default 0
+             */
+            bandeira_mes: number | string;
+            /**
+             * Desconto Tusd
+             * @default 0
+             */
+            desconto_tusd: number | string;
+            /**
+             * Fator Tributos Cativo
+             * @default 1
+             */
+            fator_tributos_cativo: number | string;
+            /**
+             * Fator Tributos Livre
+             * @default 1
+             */
+            fator_tributos_livre: number | string;
+            /**
+             * Custo Adequacao Unico
+             * @default 0
+             */
+            custo_adequacao_unico: number | string;
         };
         /** FaturaItemResponse */
         FaturaItemResponse: {
@@ -928,6 +1196,81 @@ export interface components {
             }[];
             /** Alertas */
             alertas: string[];
+        };
+        /** SimulacaoACLPuraRequest */
+        SimulacaoACLPuraRequest: {
+            entrada: components["schemas"]["EntradaACLSchema"];
+            /** Cenarios */
+            cenarios: components["schemas"]["CenarioPrecoSchema"][];
+            /** Data Referencia */
+            data_referencia?: string | null;
+        };
+        /** SimulacaoACLRequest */
+        SimulacaoACLRequest: {
+            entrada: components["schemas"]["EntradaACLSchema"];
+            /** Cenarios */
+            cenarios: components["schemas"]["CenarioPrecoSchema"][];
+        };
+        /** SimulacaoACLResponse */
+        SimulacaoACLResponse: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Diagnostico Id
+             * Format: uuid
+             */
+            diagnostico_id: string;
+            /** Cenario */
+            cenario: string;
+            /** Premissas */
+            premissas: {
+                [key: string]: unknown;
+            };
+            /** Resultado */
+            resultado: {
+                [key: string]: unknown;
+            };
+            /**
+             * Criado Em
+             * Format: date-time
+             */
+            criado_em: string;
+        };
+        /** SimulacaoDemandaRequest */
+        SimulacaoDemandaRequest: {
+            /**
+             * Modalidade
+             * @enum {string}
+             */
+            modalidade: "VERDE" | "AZUL";
+            /** Dm Ponta Kw */
+            dm_ponta_kw: (number | string)[];
+            /** Dm Fora Ponta Kw */
+            dm_fora_ponta_kw: (number | string)[];
+            /** Tarifa Unica Rs Kw */
+            tarifa_unica_rs_kw?: (number | string) | null;
+            /** Tarifa Ponta Rs Kw */
+            tarifa_ponta_rs_kw?: (number | string) | null;
+            /** Tarifa Fora Ponta Rs Kw */
+            tarifa_fora_ponta_rs_kw?: (number | string) | null;
+            /** Dc Atual Kw */
+            dc_atual_kw?: (number | string) | null;
+            /** Dc Atual Ponta Kw */
+            dc_atual_ponta_kw?: (number | string) | null;
+            /** Dc Atual Fora Ponta Kw */
+            dc_atual_fora_ponta_kw?: (number | string) | null;
+            /** Data Referencia */
+            data_referencia?: string | null;
+        };
+        /** SimulacaoPuraResponse */
+        SimulacaoPuraResponse: {
+            /** Resultado */
+            resultado: {
+                [key: string]: unknown;
+            };
         };
         /**
          * Subgrupo
@@ -2009,6 +2352,239 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ResumoMedicoesResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    post_diagnostico_api_v1_diagnosticos_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "Idempotency-Key"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DiagnosticoCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DiagnosticoResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_diagnostico_api_v1_diagnosticos__diagnostico_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                diagnostico_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DiagnosticoResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    patch_diagnostico_api_v1_diagnosticos__diagnostico_id__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                diagnostico_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DiagnosticoPatch"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DiagnosticoResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    post_revisar_api_v1_diagnosticos__diagnostico_id__revisar_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                diagnostico_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DiagnosticoResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    post_simulacao_acl_persistida_api_v1_diagnosticos__diagnostico_id__simulacoes_acl_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                diagnostico_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SimulacaoACLRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SimulacaoACLResponse"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    post_simulacao_demanda_api_v1_simulacoes_demanda_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SimulacaoDemandaRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SimulacaoPuraResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    post_simulacao_acl_api_v1_simulacoes_acl_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SimulacaoACLPuraRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SimulacaoPuraResponse"];
                 };
             };
             /** @description Validation Error */

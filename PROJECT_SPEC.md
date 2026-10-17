@@ -1237,7 +1237,7 @@ Acurácia por campo e distribuidora:
 ### Fase 7 — Diagnóstico (orquestração e API)
 
 - [x] **T-7.1 Serviço de diagnóstico.** Monta insumos → motor → grava **snapshot** + achados. Escopos `FATURA_UNICA` e `HISTORICO`.
-- [ ] **T-7.2 Endpoints.** `POST/GET/PATCH /diagnosticos`, `revisar`, `simulacoes/demanda`, `simulacoes/acl`, `simulacoes-acl`.
+- [x] **T-7.2 Endpoints.** `POST/GET/PATCH /diagnosticos`, `revisar`, `simulacoes/demanda`, `simulacoes/acl`, `simulacoes-acl`.
 - [ ] **T-7.3 Invalidação.** Editar fatura/contrato/parâmetro relevante marca diagnósticos dependentes como `STALE`.
 
 ### Fase 8 — Relatório PDF

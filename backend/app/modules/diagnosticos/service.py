@@ -107,7 +107,7 @@ def criar_diagnostico(
     )
     referencias = sorted(_referencia(f) for f in faturas)
     ultima = referencias[-1]
-    parametros = _carregar_parametros(session, ultima)
+    parametros = carregar_parametros(session, ultima)
     contrato = _contrato_vigente(session, uc_id, ultima)
     tarifas, fontes_tarifas = _resolver_tarifas(
         session,
@@ -261,7 +261,7 @@ def _selecionar_faturas(
     return aptas, premissas
 
 
-def _carregar_parametros(session: Session, referencia: date) -> ParametrosRegulatorios:
+def carregar_parametros(session: Session, referencia: date) -> ParametrosRegulatorios:
     try:
         return carregar_parametros_regulatorios(session, data=referencia, usar_cache=False)
     except ParametroRegulatorioNaoEncontrado as erro:

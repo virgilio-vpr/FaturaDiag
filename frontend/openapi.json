@@ -1555,10 +1555,453 @@
           }
         }
       }
+    },
+    "/api/v1/diagnosticos": {
+      "post": {
+        "tags": [
+          "diagnosticos"
+        ],
+        "summary": "Post Diagnostico",
+        "operationId": "post_diagnostico_api_v1_diagnosticos_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 128
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Idempotency-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DiagnosticoCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiagnosticoResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/diagnosticos/{diagnostico_id}": {
+      "get": {
+        "tags": [
+          "diagnosticos"
+        ],
+        "summary": "Get Diagnostico",
+        "operationId": "get_diagnostico_api_v1_diagnosticos__diagnostico_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "diagnostico_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Diagnostico Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiagnosticoResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "diagnosticos"
+        ],
+        "summary": "Patch Diagnostico",
+        "operationId": "patch_diagnostico_api_v1_diagnosticos__diagnostico_id__patch",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "diagnostico_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Diagnostico Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DiagnosticoPatch"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiagnosticoResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/diagnosticos/{diagnostico_id}/revisar": {
+      "post": {
+        "tags": [
+          "diagnosticos"
+        ],
+        "summary": "Post Revisar",
+        "operationId": "post_revisar_api_v1_diagnosticos__diagnostico_id__revisar_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "diagnostico_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Diagnostico Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiagnosticoResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/diagnosticos/{diagnostico_id}/simulacoes-acl": {
+      "post": {
+        "tags": [
+          "diagnosticos"
+        ],
+        "summary": "Post Simulacao Acl Persistida",
+        "operationId": "post_simulacao_acl_persistida_api_v1_diagnosticos__diagnostico_id__simulacoes_acl_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "diagnostico_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Diagnostico Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SimulacaoACLRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SimulacaoACLResponse"
+                  },
+                  "title": "Response Post Simulacao Acl Persistida Api V1 Diagnosticos  Diagnostico Id  Simulacoes Acl Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/simulacoes/demanda": {
+      "post": {
+        "tags": [
+          "diagnosticos"
+        ],
+        "summary": "Post Simulacao Demanda",
+        "operationId": "post_simulacao_demanda_api_v1_simulacoes_demanda_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SimulacaoDemandaRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimulacaoPuraResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/simulacoes/acl": {
+      "post": {
+        "tags": [
+          "diagnosticos"
+        ],
+        "summary": "Post Simulacao Acl",
+        "operationId": "post_simulacao_acl_api_v1_simulacoes_acl_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SimulacaoACLPuraRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimulacaoPuraResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
     }
   },
   "components": {
     "schemas": {
+      "AchadoResponse": {
+        "properties": {
+          "ordem": {
+            "type": "integer",
+            "title": "Ordem"
+          },
+          "codigo": {
+            "type": "string",
+            "title": "Codigo"
+          },
+          "severidade": {
+            "type": "string",
+            "title": "Severidade"
+          },
+          "titulo": {
+            "type": "string",
+            "title": "Titulo"
+          },
+          "descricao": {
+            "type": "string",
+            "title": "Descricao"
+          },
+          "economia_anual": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Economia Anual"
+          },
+          "recomendacao": {
+            "type": "string",
+            "title": "Recomendacao"
+          },
+          "evidencias": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Evidencias"
+          },
+          "premissas": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Premissas"
+          },
+          "trace": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Trace"
+          }
+        },
+        "type": "object",
+        "required": [
+          "ordem",
+          "codigo",
+          "severidade",
+          "titulo",
+          "descricao",
+          "economia_anual",
+          "recomendacao",
+          "evidencias",
+          "premissas",
+          "trace"
+        ],
+        "title": "AchadoResponse"
+      },
       "AmbienteUnidade": {
         "type": "string",
         "enum": [
@@ -1635,6 +2078,35 @@
           "OUTROS"
         ],
         "title": "CategoriaItem"
+      },
+      "CenarioPrecoSchema": {
+        "properties": {
+          "nome": {
+            "type": "string",
+            "maxLength": 32,
+            "minLength": 1,
+            "title": "Nome"
+          },
+          "preco_rs_mwh": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Preco Rs Mwh",
+            "ge": 0
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "nome",
+          "preco_rs_mwh"
+        ],
+        "title": "CenarioPrecoSchema"
       },
       "ClienteCreate": {
         "properties": {
@@ -2450,6 +2922,408 @@
         "type": "object",
         "title": "DadosFaturaUpdate",
         "description": "Valores revisados; campos ausentes permanecem como estão. Alíquotas em fração (0.18)."
+      },
+      "DiagnosticoCreate": {
+        "properties": {
+          "uc_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Uc Id"
+          },
+          "escopo": {
+            "type": "string",
+            "enum": [
+              "FATURA_UNICA",
+              "HISTORICO"
+            ],
+            "title": "Escopo"
+          },
+          "fatura_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fatura Id"
+          },
+          "periodo_inicio": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Periodo Inicio"
+          },
+          "periodo_fim": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Periodo Fim"
+          },
+          "acl": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SimulacaoACLRequest"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "uc_id",
+          "escopo"
+        ],
+        "title": "DiagnosticoCreate"
+      },
+      "DiagnosticoPatch": {
+        "properties": {
+          "notas": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 10000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notas"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "notas"
+        ],
+        "title": "DiagnosticoPatch"
+      },
+      "DiagnosticoResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "uc_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Uc Id"
+          },
+          "escopo": {
+            "type": "string",
+            "title": "Escopo"
+          },
+          "periodo_inicio": {
+            "type": "string",
+            "format": "date",
+            "title": "Periodo Inicio"
+          },
+          "periodo_fim": {
+            "type": "string",
+            "format": "date",
+            "title": "Periodo Fim"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "versao_motor": {
+            "type": "string",
+            "title": "Versao Motor"
+          },
+          "economia_mensal_estimada": {
+            "type": "string",
+            "title": "Economia Mensal Estimada"
+          },
+          "economia_anual_estimada": {
+            "type": "string",
+            "title": "Economia Anual Estimada"
+          },
+          "notas": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notas"
+          },
+          "criado_por": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Criado Por"
+          },
+          "revisado_por": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Revisado Por"
+          },
+          "revisado_em": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Revisado Em"
+          },
+          "criado_em": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Criado Em"
+          },
+          "resultado": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Resultado"
+          },
+          "fontes": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Fontes"
+          },
+          "premissas_montagem": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Premissas Montagem"
+          },
+          "parametros_pendentes": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Parametros Pendentes"
+          },
+          "achados": {
+            "items": {
+              "$ref": "#/components/schemas/AchadoResponse"
+            },
+            "type": "array",
+            "title": "Achados"
+          },
+          "simulacoes_acl": {
+            "items": {
+              "$ref": "#/components/schemas/SimulacaoACLResponse"
+            },
+            "type": "array",
+            "title": "Simulacoes Acl"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "uc_id",
+          "escopo",
+          "periodo_inicio",
+          "periodo_fim",
+          "status",
+          "versao_motor",
+          "economia_mensal_estimada",
+          "economia_anual_estimada",
+          "notas",
+          "criado_por",
+          "revisado_por",
+          "revisado_em",
+          "criado_em",
+          "resultado",
+          "fontes",
+          "premissas_montagem",
+          "parametros_pendentes",
+          "achados",
+          "simulacoes_acl"
+        ],
+        "title": "DiagnosticoResponse"
+      },
+      "EntradaACLSchema": {
+        "properties": {
+          "consumo_mwh_mes": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Consumo Mwh Mes",
+            "ge": 0
+          },
+          "te_cativa_rs_mwh": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Te Cativa Rs Mwh",
+            "ge": 0
+          },
+          "encargos_rs_mwh": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Encargos Rs Mwh",
+            "ge": 0
+          },
+          "custos_fixos_mes": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Custos Fixos Mes",
+            "ge": 0
+          },
+          "tusd_demanda_mes": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Tusd Demanda Mes",
+            "default": "0",
+            "ge": 0
+          },
+          "tusd_consumo_mes": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Tusd Consumo Mes",
+            "default": "0",
+            "ge": 0
+          },
+          "bandeira_mes": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Bandeira Mes",
+            "default": "0",
+            "ge": 0
+          },
+          "desconto_tusd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Desconto Tusd",
+            "default": "0",
+            "ge": 0
+          },
+          "fator_tributos_cativo": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Fator Tributos Cativo",
+            "default": "1",
+            "ge": 0
+          },
+          "fator_tributos_livre": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Fator Tributos Livre",
+            "default": "1",
+            "ge": 0
+          },
+          "custo_adequacao_unico": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Custo Adequacao Unico",
+            "default": "0",
+            "ge": 0
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "consumo_mwh_mes",
+          "te_cativa_rs_mwh",
+          "encargos_rs_mwh",
+          "custos_fixos_mes"
+        ],
+        "title": "EntradaACLSchema"
       },
       "FaturaItemResponse": {
         "properties": {
@@ -3551,6 +4425,301 @@
           "alertas"
         ],
         "title": "ResumoMedicoesResponse"
+      },
+      "SimulacaoACLPuraRequest": {
+        "properties": {
+          "entrada": {
+            "$ref": "#/components/schemas/EntradaACLSchema"
+          },
+          "cenarios": {
+            "items": {
+              "$ref": "#/components/schemas/CenarioPrecoSchema"
+            },
+            "type": "array",
+            "maxItems": 10,
+            "minItems": 1,
+            "title": "Cenarios"
+          },
+          "data_referencia": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Data Referencia"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "entrada",
+          "cenarios"
+        ],
+        "title": "SimulacaoACLPuraRequest"
+      },
+      "SimulacaoACLRequest": {
+        "properties": {
+          "entrada": {
+            "$ref": "#/components/schemas/EntradaACLSchema"
+          },
+          "cenarios": {
+            "items": {
+              "$ref": "#/components/schemas/CenarioPrecoSchema"
+            },
+            "type": "array",
+            "maxItems": 10,
+            "minItems": 1,
+            "title": "Cenarios"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "entrada",
+          "cenarios"
+        ],
+        "title": "SimulacaoACLRequest"
+      },
+      "SimulacaoACLResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "diagnostico_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Diagnostico Id"
+          },
+          "cenario": {
+            "type": "string",
+            "title": "Cenario"
+          },
+          "premissas": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Premissas"
+          },
+          "resultado": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Resultado"
+          },
+          "criado_em": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Criado Em"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "diagnostico_id",
+          "cenario",
+          "premissas",
+          "resultado",
+          "criado_em"
+        ],
+        "title": "SimulacaoACLResponse"
+      },
+      "SimulacaoDemandaRequest": {
+        "properties": {
+          "modalidade": {
+            "type": "string",
+            "enum": [
+              "VERDE",
+              "AZUL"
+            ],
+            "title": "Modalidade"
+          },
+          "dm_ponta_kw": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "string"
+                }
+              ],
+              "ge": 0
+            },
+            "type": "array",
+            "maxItems": 120,
+            "minItems": 1,
+            "title": "Dm Ponta Kw"
+          },
+          "dm_fora_ponta_kw": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "string"
+                }
+              ],
+              "ge": 0
+            },
+            "type": "array",
+            "maxItems": 120,
+            "minItems": 1,
+            "title": "Dm Fora Ponta Kw"
+          },
+          "tarifa_unica_rs_kw": {
+            "anyOf": [
+              {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ],
+                "ge": 0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tarifa Unica Rs Kw"
+          },
+          "tarifa_ponta_rs_kw": {
+            "anyOf": [
+              {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ],
+                "ge": 0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tarifa Ponta Rs Kw"
+          },
+          "tarifa_fora_ponta_rs_kw": {
+            "anyOf": [
+              {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ],
+                "ge": 0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tarifa Fora Ponta Rs Kw"
+          },
+          "dc_atual_kw": {
+            "anyOf": [
+              {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ],
+                "ge": 0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dc Atual Kw"
+          },
+          "dc_atual_ponta_kw": {
+            "anyOf": [
+              {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ],
+                "ge": 0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dc Atual Ponta Kw"
+          },
+          "dc_atual_fora_ponta_kw": {
+            "anyOf": [
+              {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ],
+                "ge": 0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dc Atual Fora Ponta Kw"
+          },
+          "data_referencia": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Data Referencia"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "modalidade",
+          "dm_ponta_kw",
+          "dm_fora_ponta_kw"
+        ],
+        "title": "SimulacaoDemandaRequest"
+      },
+      "SimulacaoPuraResponse": {
+        "properties": {
+          "resultado": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Resultado"
+          }
+        },
+        "type": "object",
+        "required": [
+          "resultado"
+        ],
+        "title": "SimulacaoPuraResponse"
       },
       "Subgrupo": {
         "type": "string",

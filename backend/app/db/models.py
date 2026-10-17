@@ -514,6 +514,7 @@ class Diagnostico(TenantMixin, TimestampMixin, Base):
     criado_por: Mapped[UUID | None] = mapped_column(ForeignKey("usuario.id"), nullable=True)
     revisado_por: Mapped[UUID | None] = mapped_column(ForeignKey("usuario.id"), nullable=True)
     revisado_em: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    notas: Mapped[str | None] = mapped_column(Text, nullable=True)
 
 
 class DiagnosticoAchado(TenantMixin, Base):
@@ -542,3 +543,19 @@ class DiagnosticoAchado(TenantMixin, Base):
         JSONB, nullable=False, default=list, server_default="[]"
     )
     trace: Mapped[dict[str, object]] = mapped_column(JSONB, nullable=False)
+
+
+class SimulacaoACL(TenantMixin, TimestampMixin, Base):
+    __tablename__ = "simulacao_acl"
+    __table_args__ = (
+        CheckConstraint(
+            "cenario IN ('CONSERVADOR', 'BASE', 'OTIMISTA')", name="ck_simulacao_acl_cenario"
+        ),
+    )
+
+    diagnostico_id: Mapped[UUID] = mapped_column(
+        ForeignKey("diagnostico.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+    cenario: Mapped[str] = mapped_column(String(16), nullable=False)
+    premissas: Mapped[dict[str, object]] = mapped_column(JSONB, nullable=False)
+    resultado: Mapped[dict[str, object]] = mapped_column(JSONB, nullable=False)

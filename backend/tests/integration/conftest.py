@@ -17,12 +17,17 @@ from app.db.models import (
     AuditLog,
     AuthSession,
     Cliente,
+    ContratoDemanda,
+    Diagnostico,
+    DiagnosticoAchado,
     Distribuidora,
     Extracao,
     Fatura,
     FaturaItem,
     MedicaoIntervalo,
     Organizacao,
+    SimulacaoACL,
+    Tarifa,
     UnidadeConsumidora,
     Usuario,
 )
@@ -145,7 +150,14 @@ def faturas_env(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Iterator[Fat
 
     orgs = [org_a, org_b]
     with SessionLocal.begin() as session:
+        session.execute(
+            delete(ContratoDemanda).where(ContratoDemanda.uc_id.in_([unidade_a, unidade_b]))
+        )
+        session.execute(delete(Tarifa).where(Tarifa.distribuidora_id == distribuidora))
         for model in (
+            SimulacaoACL,
+            DiagnosticoAchado,
+            Diagnostico,
             Extracao,
             FaturaItem,
             Fatura,

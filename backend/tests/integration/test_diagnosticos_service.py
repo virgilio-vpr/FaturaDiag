@@ -22,44 +22,9 @@ from app.modules.diagnosticos.insumos import InsumosInsuficientesError
 from app.modules.diagnosticos.service import criar_diagnostico, recalcular_snapshot
 from app.modules.diagnosticos.snapshot import para_json
 from sqlalchemy import delete, select
+from tests.support.diagnosticos import PARAMETROS, TARIFAS
 
 D = Decimal
-
-PARAMETROS = ParametrosRegulatorios(
-    tolerancia_ultrapassagem=D("0.05"),
-    multiplicador_ultrapassagem=D("2"),
-    fator_potencia_referencia=D("0.92"),
-    intervalo_apuracao_fp_min=60,
-    janela_indutiva="06:00-24:00",
-    janela_capacitiva="00:00-06:00",
-    demanda_minima_contratada_kw=D("30"),
-    modalidades_verde_elegiveis=("A3a", "A4", "AS"),
-    modalidades_azul_obrigatorias=("A1", "A2", "A3"),
-    subgrupos_prioritarios=("A4", "AS"),
-    carga_minima_as_kw=D("75"),
-    limite_varejista_kw=D("500"),
-    prazo_notificacao_migracao_acl_dias=90,
-    feriados_nacionais_ponta=(),
-    limiar_subutilizacao=D("0.85"),
-    tolerancia_divergencia_item_rs=D("0.05"),
-    distribuidoras_suportadas=(),
-    vigencia_referencia=date(2026, 1, 1),
-    pendentes_validacao=("tolerancia_ultrapassagem",),
-)
-
-TARIFAS = [
-    ("VERDE", "UNICO", "TUSD_DEMANDA", "RS_KW", "40"),
-    ("VERDE", "PONTA", "TUSD_CONSUMO", "RS_MWH", "100"),
-    ("VERDE", "PONTA", "TE_CONSUMO", "RS_MWH", "800"),
-    ("VERDE", "FORA_PONTA", "TUSD_CONSUMO", "RS_MWH", "100"),
-    ("VERDE", "FORA_PONTA", "TE_CONSUMO", "RS_MWH", "300"),
-    ("AZUL", "PONTA", "TUSD_DEMANDA", "RS_KW", "60"),
-    ("AZUL", "FORA_PONTA", "TUSD_DEMANDA", "RS_KW", "20"),
-    ("AZUL", "PONTA", "TUSD_CONSUMO", "RS_MWH", "100"),
-    ("AZUL", "PONTA", "TE_CONSUMO", "RS_MWH", "800"),
-    ("AZUL", "FORA_PONTA", "TUSD_CONSUMO", "RS_MWH", "100"),
-    ("AZUL", "FORA_PONTA", "TE_CONSUMO", "RS_MWH", "300"),
-]
 
 
 @pytest.fixture
