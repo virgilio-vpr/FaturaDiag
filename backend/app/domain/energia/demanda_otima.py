@@ -117,7 +117,7 @@ def otimizar_posto(
     trace = Trace().adicionar(
         PassoTrace(
             "demanda_otima",
-            "Dc_otima = argmin Σ_mes [Dc x T + ult(Dm, Dc)], Dc em [Dc_min, 1,2 x max(Dm)], passo 1 kW",
+            "Dc_otima = argmin Σ_mes [Dc x T + ult(Dm, Dc)], Dc em [Dc_min, 1,2 x max(Dm)]",
             {
                 "T": tarifa,
                 "tolerancia": tolerancia,

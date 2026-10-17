@@ -26,3 +26,5 @@
 - Adicionada apuração de energia e demanda reativas excedentes (horária e aproximada) no motor, com casos dourados G-03a/b/c e G-07 e `trace` (T-4.3).
 - Adicionado cálculo de tributos "por dentro" com override por distribuidora, caso dourado G-05 (T-4.4).
 - Adicionados indicadores do motor: fator de carga, utilização de demanda, % consumo na ponta e custo médio R$/MWh, com denominador zero tratado (T-4.5).
+- Adicionada otimização de demanda contratada (Verde única e Azul por posto) com curva custo × Dc, sensibilidade e caso dourado G-04 (T-4.6).
+- Adicionada comparação Azul × Verde com Dc ótima por modalidade, elegibilidade por subgrupo vinda dos parâmetros e recomendação com diferença anual (T-4.7).

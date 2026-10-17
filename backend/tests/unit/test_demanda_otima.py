@@ -38,9 +38,9 @@ def test_curva_custo_cobre_faixa_com_passo_de_1kw() -> None:
 
 
 def test_desempate_escolhe_menor_dc() -> None:
-    # Dm constante: custo(Dc) cresce a partir de Dm; abaixo do limite há ultrapassagem
+    # Dc=96 já cobre Dm=100 pela tolerância (limite 100,8); acima disso só encarece
     r = otimizar_posto([D("100")] * 12, T, TOL, MULT, DMIN)
-    assert r.dc_otima_kw == D("100")
+    assert r.dc_otima_kw == D("96")
 
 
 def test_sensibilidade_mais_menos_5_e_10_por_cento() -> None:
@@ -79,7 +79,7 @@ def test_azul_otimiza_postos_de_forma_independente() -> None:
         dc_minima_kw=DMIN,
     )
     assert r.ponta.dc_otima_kw == D("305")
-    assert r.fora_ponta.dc_otima_kw == D("100")
+    assert r.fora_ponta.dc_otima_kw == D("96")
     assert r.custo_anual_otimo == r.ponta.custo_anual_otimo + r.fora_ponta.custo_anual_otimo
 
 
