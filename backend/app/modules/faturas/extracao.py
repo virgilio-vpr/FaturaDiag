@@ -21,6 +21,7 @@ from app.integrations.pdf import (
     extrair_texto_pdf,
     rasterizar_pdf,
 )
+from app.modules.faturas.crosscheck import checagem_cruzada
 from app.modules.faturas.validacoes import Alerta, ContextoValidacao, validar_extracao
 
 CONFIANCA_DISTRIBUIDORA = 0.80
@@ -118,6 +119,14 @@ def executar_extracao(
         hint_especifico=hint.especifico and hint.nome != HINT_GENERICO,
         fatura_duplicada=fatura_duplicada,
     )
+    alertas = validar_extracao(extraida, contexto)
+    if origem is OrigemDocumento.PDF_NATIVO and leitura is not None:
+        alertas += checagem_cruzada(
+            leitura.texto,
+            extraida,
+            sigla=sigla,
+            tolerancia_total_rs=tolerancia_divergencia_rs,
+        )
     return ResultadoExtracao(
         extraida=extraida,
         resultado=retorno.resultado,
@@ -126,7 +135,7 @@ def executar_extracao(
         metodo=metodo,
         hint_usado=hint.nome,
         distribuidora_sigla=sigla,
-        alertas=validar_extracao(extraida, contexto),
+        alertas=alertas,
         cache_hit=retorno.cache_hit,
         usou_fallback=retorno.usou_fallback,
         texto_nativo=texto,
