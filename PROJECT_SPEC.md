@@ -1236,7 +1236,7 @@ Acurácia por campo e distribuidora:
 
 ### Fase 7 — Diagnóstico (orquestração e API)
 
-- [ ] **T-7.1 Serviço de diagnóstico.** Monta insumos → motor → grava **snapshot** + achados. Escopos `FATURA_UNICA` e `HISTORICO`.
+- [x] **T-7.1 Serviço de diagnóstico.** Monta insumos → motor → grava **snapshot** + achados. Escopos `FATURA_UNICA` e `HISTORICO`.
 - [ ] **T-7.2 Endpoints.** `POST/GET/PATCH /diagnosticos`, `revisar`, `simulacoes/demanda`, `simulacoes/acl`, `simulacoes-acl`.
 - [ ] **T-7.3 Invalidação.** Editar fatura/contrato/parâmetro relevante marca diagnósticos dependentes como `STALE`.
 
@@ -1358,6 +1358,9 @@ Próxima tarefa sugerida: T-x.z
 | D-13 | Implementar cálculo da modalidade Convencional (sistemas isolados)? | Não no MVP; backlog B-14 | Alcance em regiões remotas |
 | **D-14** | **Quais distribuidoras priorizar para hints e fixtures?** | **ENEL SP, EDP SP, CPFL Paulista, Elektro (região de atuação da consultoria)** | **Acurácia de extração, esforço de testes** |
 | **D-15** | **Como lidar com mudanças de layout dentro da mesma distribuidora?** | **Versionar hints (`enel_sp_v1.md`, `enel_sp_v2.md`) e associar à data da fatura via `hint_distribuidora`** | **Manutenção de prompts; acurácia ao longo do tempo** |
+| D-16 | Os valores dos itens da fatura (`fatura_item`, `valor_total`) são com ou sem tributos? Como derivar `valor_total_sem_cip_multas` e os `faturado_*` sem tributos que o motor compara (§3.4.8 `DIVERGENCIA_FATURAMENTO`, §3.4.4 custo médio)? | T-7.1 **não** preenche `faturado_*` nem `valor_total_sem_cip_multas` (ficam `None`); sem divergência de faturamento e sem custo médio R$/MWh até a decisão e amostras reais (D-11) | Achado `DIVERGENCIA_FATURAMENTO` inativo; indicador `custo_medio_rs_mwh` nulo |
+| D-17 | Qual tarifa é o VRERE (valor de referência da TE) e o VRDRE no cálculo de reativos (§3.4.2), e como agregar a memória de massa em intervalos horários para o motor? | T-7.1 **não** alimenta `intervalos_reativos`/`vrere`/`vrdre`; `FP_ABAIXO_REFERENCIA` não dispara pelo serviço até a decisão | Achado de fator de potência inativo no diagnóstico persistido |
+| D-18 | Como contar `ciclos_contrato` para `PERIODO_DE_TESTES` (alteração de Dc em contrato antigo não é contrato novo)? | `ciclos_contrato = None`: o achado não dispara | `PERIODO_DE_TESTES` inativo no serviço |
 
 ---
 

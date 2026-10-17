@@ -480,3 +480,65 @@ class MedicaoIntervalo(TenantMixin, TimestampMixin, Base):
     kvarh_capacitivo: Mapped[Decimal | None] = mapped_column(Numeric(18, 6), nullable=True)
     fonte: Mapped[str] = mapped_column(String(24), nullable=False)
     arquivo_id: Mapped[UUID | None] = mapped_column(ForeignKey("arquivo.id"), nullable=True)
+
+
+class Diagnostico(TenantMixin, TimestampMixin, Base):
+    __tablename__ = "diagnostico"
+    __table_args__ = (
+        UniqueConstraint(
+            "organizacao_id", "idempotency_key", name="uq_diagnostico_org_idempotency"
+        ),
+        CheckConstraint("escopo IN ('FATURA_UNICA', 'HISTORICO')", name="ck_diagnostico_escopo"),
+        CheckConstraint(
+            "status IN ('RASCUNHO', 'REVISADO', 'PUBLICADO', 'STALE')",
+            name="ck_diagnostico_status",
+        ),
+        CheckConstraint("periodo_fim >= periodo_inicio", name="ck_diagnostico_periodo"),
+        Index("ix_diagnostico_organizacao_uc", "organizacao_id", "uc_id", "periodo_inicio"),
+    )
+
+    uc_id: Mapped[UUID] = mapped_column(ForeignKey("unidade_consumidora.id"), nullable=False)
+    idempotency_key: Mapped[str | None] = mapped_column(String(128), nullable=True)
+    escopo: Mapped[str] = mapped_column(String(16), nullable=False)
+    periodo_inicio: Mapped[date] = mapped_column(Date, nullable=False)
+    periodo_fim: Mapped[date] = mapped_column(Date, nullable=False)
+    status: Mapped[str] = mapped_column(
+        String(16), nullable=False, default="RASCUNHO", server_default="RASCUNHO"
+    )
+    versao_motor: Mapped[str] = mapped_column(String(16), nullable=False)
+    insumos_snapshot: Mapped[dict[str, object]] = mapped_column(JSONB, nullable=False)
+    parametros_snapshot: Mapped[dict[str, object]] = mapped_column(JSONB, nullable=False)
+    resultado: Mapped[dict[str, object]] = mapped_column(JSONB, nullable=False)
+    economia_mensal_estimada: Mapped[Decimal] = mapped_column(Numeric(16, 2), nullable=False)
+    economia_anual_estimada: Mapped[Decimal] = mapped_column(Numeric(16, 2), nullable=False)
+    criado_por: Mapped[UUID | None] = mapped_column(ForeignKey("usuario.id"), nullable=True)
+    revisado_por: Mapped[UUID | None] = mapped_column(ForeignKey("usuario.id"), nullable=True)
+    revisado_em: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+
+
+class DiagnosticoAchado(TenantMixin, Base):
+    __tablename__ = "diagnostico_achado"
+    __table_args__ = (
+        CheckConstraint(
+            "severidade IN ('INFO', 'BAIXA', 'MEDIA', 'ALTA')",
+            name="ck_diagnostico_achado_severidade",
+        ),
+    )
+
+    diagnostico_id: Mapped[UUID] = mapped_column(
+        ForeignKey("diagnostico.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+    ordem: Mapped[int] = mapped_column(Integer, nullable=False)
+    codigo: Mapped[str] = mapped_column(String(48), nullable=False)
+    severidade: Mapped[str] = mapped_column(String(8), nullable=False)
+    titulo: Mapped[str] = mapped_column(String(255), nullable=False)
+    descricao: Mapped[str] = mapped_column(Text, nullable=False)
+    economia_anual: Mapped[Decimal | None] = mapped_column(Numeric(16, 2), nullable=True)
+    recomendacao: Mapped[str] = mapped_column(Text, nullable=False)
+    evidencias: Mapped[list[str]] = mapped_column(
+        JSONB, nullable=False, default=list, server_default="[]"
+    )
+    premissas: Mapped[list[str]] = mapped_column(
+        JSONB, nullable=False, default=list, server_default="[]"
+    )
+    trace: Mapped[dict[str, object]] = mapped_column(JSONB, nullable=False)
