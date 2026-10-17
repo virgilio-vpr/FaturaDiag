@@ -1213,7 +1213,7 @@ Acurácia por campo e distribuidora:
 - [x] **T-4.7 Azul × Verde** (§3.4.6) — **prioridade máxima para A4 e AS**.
 - [x] **T-4.8 Simulação ACL** (§3.4.7) — G-06.
 - [x] **T-4.9 Achados e orquestrador.** `diagnosticar(insumos, parametros) -> ResultadoDiagnostico`.
-- [ ] **T-4.10 Qualidade.** Testes `hypothesis`; teste que falha se houver `float(` ou literais de tarifa em `domain/`; `import-linter`. *Aceite:* cobertura ≥ 95 % em `domain/`.
+- [x] **T-4.10 Qualidade.** Testes `hypothesis`; teste que falha se houver `float(` ou literais de tarifa em `domain/`; `import-linter`. *Aceite:* cobertura ≥ 95 % em `domain/`.
 
 ### Fase 5 — Ingestão e extração por IA
 

@@ -30,3 +30,4 @@
 - Adicionada comparação Azul × Verde com Dc ótima por modalidade, elegibilidade por subgrupo vinda dos parâmetros e recomendação com diferença anual (T-4.7).
 - Adicionada simulação de migração ao ACL com cenários de preço informados, break-even, sensibilidade, payback e checklist, caso dourado G-06 (T-4.8).
 - Adicionados catálogo de achados e orquestrador `diagnosticar(insumos, parametros)` do motor, com apuração mensal, indicadores, demanda ótima, comparação de modalidades, ACL e achados com trace (T-4.9).
+- Adicionados testes de propriedade com `hypothesis`, guardas que falham com `float` ou tarifas literais em `domain/` e gate de cobertura ≥ 95 % do domínio no `make check` (T-4.10).

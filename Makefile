@@ -1,4 +1,4 @@
-.PHONY: up down migrate seed import-tariffs lint types test check eval-extraction openapi report-sample
+.PHONY: up down migrate seed import-tariffs lint types test cover-domain check eval-extraction openapi report-sample
 
 up:
 	docker compose up -d --build
@@ -27,7 +27,10 @@ openapi:
 types: openapi
 	cd frontend && npx --yes openapi-typescript openapi.json -o src/api/schema.d.ts
 
-check: lint test
+cover-domain:
+	cd backend && uv run pytest tests/unit --cov=app/domain --cov-fail-under=95 -q
+
+check: lint test cover-domain
 
 eval-extraction:
 	cd backend && uv run python -m app.scripts.eval_extraction

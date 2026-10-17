@@ -20,6 +20,7 @@ dependencies = [
 [dependency-groups]
 dev = [
     "httpx",
+    "hypothesis>=6.170.1",
     "import-linter",
     "mypy",
     "pre-commit",
