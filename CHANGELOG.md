@@ -28,3 +28,4 @@
 - Adicionados indicadores do motor: fator de carga, utilização de demanda, % consumo na ponta e custo médio R$/MWh, com denominador zero tratado (T-4.5).
 - Adicionada otimização de demanda contratada (Verde única e Azul por posto) com curva custo × Dc, sensibilidade e caso dourado G-04 (T-4.6).
 - Adicionada comparação Azul × Verde com Dc ótima por modalidade, elegibilidade por subgrupo vinda dos parâmetros e recomendação com diferença anual (T-4.7).
+- Adicionada simulação de migração ao ACL com cenários de preço informados, break-even, sensibilidade, payback e checklist, caso dourado G-06 (T-4.8).

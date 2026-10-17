@@ -1211,7 +1211,7 @@ Acurácia por campo e distribuidora:
 - [x] **T-4.5 Indicadores** (§3.4.4).
 - [x] **T-4.6 Demanda ótima** (§3.4.5) — G-04.
 - [x] **T-4.7 Azul × Verde** (§3.4.6) — **prioridade máxima para A4 e AS**.
-- [ ] **T-4.8 Simulação ACL** (§3.4.7) — G-06.
+- [x] **T-4.8 Simulação ACL** (§3.4.7) — G-06.
 - [ ] **T-4.9 Achados e orquestrador.** `diagnosticar(insumos, parametros) -> ResultadoDiagnostico`.
 - [ ] **T-4.10 Qualidade.** Testes `hypothesis`; teste que falha se houver `float(` ou literais de tarifa em `domain/`; `import-linter`. *Aceite:* cobertura ≥ 95 % em `domain/`.
 
