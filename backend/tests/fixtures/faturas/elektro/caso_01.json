@@ -1,0 +1,48 @@
+{
+  "descricao": "Fatura SINTÉTICA fictícia (A4 Verde, Elektro). Não é fatura real.",
+  "linhas": [
+    "ELEKTRO REDES S.A. - FATURA DE ENERGIA ELETRICA",
+    "Cliente: AGROINDUSTRIA FICTICIA ELEKTRO LTDA   UC 0040000004   Referencia 06/2026",
+    "Demanda Contratada 1.000,00 kW",
+    "Demanda Medida Ponta 600,00 kW",
+    "Demanda Medida Fora Ponta 950,00 kW",
+    "Consumo Ponta 30.000,000 kWh",
+    "Consumo Fora Ponta 200.000,000 kWh",
+    "Fator de potencia 0,94   Bandeira VERMELHA 1",
+    "TOTAL A PAGAR R$ 3.000,00"
+  ],
+  "esperado": {
+    "distribuidora": "ELEKTRO REDES",
+    "razao_social": "AGROINDUSTRIA FICTICIA ELEKTRO LTDA",
+    "cnpj": "00.000.000/0004-34",
+    "codigo_uc": "0040000004",
+    "uf": "SP",
+    "subgrupo": "A4",
+    "modalidade": "VERDE",
+    "tipo_rede": "AEREA",
+    "mes_referencia": "2026-06-01",
+    "leitura_anterior": "2026-05-06",
+    "leitura_atual": "2026-06-05",
+    "dias_faturados": 30,
+    "vencimento": "2026-06-20",
+    "demanda_contratada_ponta_kw": null,
+    "demanda_contratada_fora_ponta_kw": null,
+    "demanda_contratada_unica_kw": "1000.00",
+    "demanda_medida_ponta_kw": "600.00",
+    "demanda_medida_fora_ponta_kw": "950.00",
+    "consumo_ponta_kwh": "30000.000",
+    "consumo_fora_ponta_kwh": "200000.000",
+    "reativo_ponta_kvarh": "0.000",
+    "reativo_fora_ponta_kvarh": "1200.000",
+    "fator_potencia": "0.9400",
+    "icms_aliquota_pct": "18.00",
+    "pis_aliquota_pct": "1.20",
+    "cofins_aliquota_pct": "5.50",
+    "bandeira": "VERMELHA_1",
+    "valor_total": "3000.00",
+    "itens": [
+      {"descricao": "Demanda", "categoria": "DEMANDA", "posto": "UNICO", "unidade": "kW", "quantidade": "1000.00", "tarifa_unitaria": "1.500000", "valor": "1500.00"},
+      {"descricao": "Consumo TUSD", "categoria": "CONSUMO_TUSD", "posto": "UNICO", "unidade": "kWh", "quantidade": "3000.000", "tarifa_unitaria": "0.500000", "valor": "1500.00"}
+    ]
+  }
+}

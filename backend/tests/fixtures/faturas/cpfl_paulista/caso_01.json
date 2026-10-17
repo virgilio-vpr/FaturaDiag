@@ -1,0 +1,48 @@
+{
+  "descricao": "Fatura SINTÉTICA fictícia (A4 Verde, CPFL Paulista). Não é fatura real.",
+  "linhas": [
+    "CPFL PAULISTA - COMPANHIA PAULISTA DE FORCA E LUZ - FATURA DE ENERGIA ELETRICA",
+    "Cliente: COMERCIO FICTICIO CPFL EIRELI   UC 0030000003   Referencia 05/2026",
+    "Demanda Contratada 300,00 kW",
+    "Demanda Medida Ponta 210,00 kW",
+    "Demanda Medida Fora Ponta 280,00 kW",
+    "Consumo Ponta 8.000,000 kWh",
+    "Consumo Fora Ponta 60.000,000 kWh",
+    "Fator de potencia 0,96   Bandeira VERDE",
+    "TOTAL A PAGAR R$ 600,00"
+  ],
+  "esperado": {
+    "distribuidora": "CPFL PAULISTA",
+    "razao_social": "COMERCIO FICTICIO CPFL EIRELI",
+    "cnpj": "00.000.000/0003-53",
+    "codigo_uc": "0030000003",
+    "uf": "SP",
+    "subgrupo": "A4",
+    "modalidade": "VERDE",
+    "tipo_rede": "AEREA",
+    "mes_referencia": "2026-05-01",
+    "leitura_anterior": "2026-04-05",
+    "leitura_atual": "2026-05-05",
+    "dias_faturados": 30,
+    "vencimento": "2026-05-20",
+    "demanda_contratada_ponta_kw": null,
+    "demanda_contratada_fora_ponta_kw": null,
+    "demanda_contratada_unica_kw": "300.00",
+    "demanda_medida_ponta_kw": "210.00",
+    "demanda_medida_fora_ponta_kw": "280.00",
+    "consumo_ponta_kwh": "8000.000",
+    "consumo_fora_ponta_kwh": "60000.000",
+    "reativo_ponta_kvarh": "0.000",
+    "reativo_fora_ponta_kvarh": "0.000",
+    "fator_potencia": "0.9600",
+    "icms_aliquota_pct": "18.00",
+    "pis_aliquota_pct": "1.20",
+    "cofins_aliquota_pct": "5.50",
+    "bandeira": "VERDE",
+    "valor_total": "600.00",
+    "itens": [
+      {"descricao": "Demanda", "categoria": "DEMANDA", "posto": "UNICO", "unidade": "kW", "quantidade": "300.00", "tarifa_unitaria": "1.000000", "valor": "300.00"},
+      {"descricao": "Consumo TUSD", "categoria": "CONSUMO_TUSD", "posto": "UNICO", "unidade": "kWh", "quantidade": "600.000", "tarifa_unitaria": "0.500000", "valor": "300.00"}
+    ]
+  }
+}

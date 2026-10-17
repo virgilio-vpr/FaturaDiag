@@ -24,9 +24,9 @@ from app.modules.faturas.validacoes import (
     tem_bloqueante,
     validar_extracao,
 )
+from app.scripts.pdf_sintetico import pdf_com_texto
 from tenacity import wait_none
 from tests.support.extracao import campo, fatura_extraida_dict
-from tests.support.pdf import pdf_com_texto
 
 TOL = Decimal("0.05")
 

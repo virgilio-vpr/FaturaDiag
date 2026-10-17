@@ -1225,7 +1225,7 @@ Acurácia por campo e distribuidora:
 - [x] **T-5.5 Extração e validação (E3–E5).** Schema (Anexo E), prompt (Anexo F) + hints, regras §10.3 e §10.3.1.
 - [x] **T-5.6 Pipeline e revisão.** `JobRunner` com `BackgroundTasks`, máquina de estados (§4.4), `PUT /faturas/{id}/dados`, `validar`, `reextrair`.
 - [x] **T-5.7 Checagem cruzada (E6)** para PDF nativo, **parametrizada por distribuidora**.
-- [ ] **T-5.8 Avaliação.** `docs/fixtures-guide.md`, fixtures anonimizadas **por distribuidora** e `make eval-extraction` (acurácia por campo/distribuidora/hint, custo, latência).
+- [x] **T-5.8 Avaliação.** `docs/fixtures-guide.md`, fixtures anonimizadas **por distribuidora** e `make eval-extraction` (acurácia por campo/distribuidora/hint, custo, latência).
 
 ### Fase 6 — Memória de massa
 
@@ -1353,7 +1353,7 @@ Próxima tarefa sugerida: T-x.z
 | D-08 | Política de retenção de arquivos | 24 meses | LGPD |
 | D-09 | E-mail transacional (recuperação de senha) | Fora do MVP | Fluxo de conta |
 | D-10 | Responsável por validar parâmetros `VALIDAR` | O engenheiro (T-10.5) | **Bloqueia uso comercial** |
-| D-11 | Fornecer CSV de tarifas homologadas (dados abertos ANEEL) e amostras de faturas anonimizadas | Humano fornece | Bloqueia T-3.2 e T-5.8 |
+| D-11 | Fornecer CSV de tarifas homologadas (dados abertos ANEEL) e amostras de faturas anonimizadas | Humano fornece. **Status:** CSV recebido (T-3.2); **amostras reais pendentes** — T-5.8 usa fixtures sintéticas, e a acurácia real e os rótulos de checagem cruzada por distribuidora dependem delas | Bloqueia a medição real de T-5.8 |
 | D-12 | Incluir subgrupos A1, A2, A3 e A3a no MVP ou apenas A4 e AS? | Aceitar cadastro de todos, priorizar testes e hints em A4 e AS | Escopo comercial e esforço de testes |
 | D-13 | Implementar cálculo da modalidade Convencional (sistemas isolados)? | Não no MVP; backlog B-14 | Alcance em regiões remotas |
 | **D-14** | **Quais distribuidoras priorizar para hints e fixtures?** | **ENEL SP, EDP SP, CPFL Paulista, Elektro (região de atuação da consultoria)** | **Acurácia de extração, esforço de testes** |

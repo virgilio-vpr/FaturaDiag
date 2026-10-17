@@ -9,8 +9,8 @@ from app.integrations.pdf import (
     extrair_texto_pdf,
     rasterizar_pdf,
 )
+from app.scripts.pdf_sintetico import pdf_com_texto
 from PIL import Image
-from tests.support.pdf import pdf_com_texto
 
 LINHAS_FATURA = [
     "DISTRIBUIDORA EXEMPLO - NOTA FISCAL / FATURA DE ENERGIA ELETRICA",

@@ -1,0 +1,8 @@
+{
+  "_nota": "Respostas gravadas SINTÉTICAS: ajustes aplicados sobre o esperado. Servem para exercitar o harness, não medem acurácia real.",
+  "com_hint": {},
+  "sem_hint": {
+    "demanda_medida_ponta_kw": "450.00",
+    "demanda_medida_fora_ponta_kw": "300.00"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "descricao": "Fatura SINTÉTICA fictícia (A4 Verde, ENEL SP). Não é fatura real.",
+  "linhas": [
+    "ENEL DISTRIBUICAO SAO PAULO - NOTA FISCAL / FATURA DE ENERGIA ELETRICA",
+    "Cliente: EMPRESA FICTICIA ENEL LTDA   UC 0010000001   Referencia 03/2026",
+    "Demanda Contratada 500,00 kW",
+    "Demanda Medida Ponta 300,00 kW",
+    "Demanda Medida Fora Ponta 450,00 kW",
+    "Consumo Ponta 12.000,000 kWh",
+    "Consumo Fora Ponta 90.000,000 kWh",
+    "Fator de potencia 0,95   Bandeira VERDE",
+    "TOTAL A PAGAR R$ 1.000,00"
+  ],
+  "esperado": {
+    "distribuidora": "ENEL DISTRIBUIÇÃO SÃO PAULO",
+    "razao_social": "EMPRESA FICTICIA ENEL LTDA",
+    "cnpj": "00.000.000/0001-91",
+    "codigo_uc": "0010000001",
+    "uf": "SP",
+    "subgrupo": "A4",
+    "modalidade": "VERDE",
+    "tipo_rede": "AEREA",
+    "mes_referencia": "2026-03-01",
+    "leitura_anterior": "2026-02-03",
+    "leitura_atual": "2026-03-05",
+    "dias_faturados": 30,
+    "vencimento": "2026-03-20",
+    "demanda_contratada_ponta_kw": null,
+    "demanda_contratada_fora_ponta_kw": null,
+    "demanda_contratada_unica_kw": "500.00",
+    "demanda_medida_ponta_kw": "300.00",
+    "demanda_medida_fora_ponta_kw": "450.00",
+    "consumo_ponta_kwh": "12000.000",
+    "consumo_fora_ponta_kwh": "90000.000",
+    "reativo_ponta_kvarh": "100.000",
+    "reativo_fora_ponta_kvarh": "500.000",
+    "fator_potencia": "0.9500",
+    "icms_aliquota_pct": "18.00",
+    "pis_aliquota_pct": "1.20",
+    "cofins_aliquota_pct": "5.50",
+    "bandeira": "VERDE",
+    "valor_total": "1000.00",
+    "itens": [
+      {"descricao": "Demanda", "categoria": "DEMANDA", "posto": "UNICO", "unidade": "kW", "quantidade": "500.00", "tarifa_unitaria": "1.000000", "valor": "500.00"},
+      {"descricao": "Consumo TUSD", "categoria": "CONSUMO_TUSD", "posto": "UNICO", "unidade": "kWh", "quantidade": "1000.000", "tarifa_unitaria": "0.500000", "valor": "500.00"}
+    ]
+  }
+}

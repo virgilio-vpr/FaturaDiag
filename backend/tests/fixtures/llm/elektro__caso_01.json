@@ -1,0 +1,10 @@
+{
+  "_nota": "Respostas gravadas SINTÉTICAS: ajustes aplicados sobre o esperado. Servem para exercitar o harness, não medem acurácia real.",
+  "com_hint": {
+    "bandeira": "VERMELHA_2"
+  },
+  "sem_hint": {
+    "bandeira": "VERMELHA_2",
+    "fator_potencia": "0.9000"
+  }
+}

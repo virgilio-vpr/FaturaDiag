@@ -15,8 +15,8 @@ from app.modules.faturas.crosscheck import (
 )
 from app.modules.faturas.extracao import executar_extracao
 from app.modules.faturas.validacoes import Severidade
+from app.scripts.pdf_sintetico import pdf_com_texto
 from tests.support.extracao import campo, fatura_extraida_dict
-from tests.support.pdf import pdf_com_texto
 
 TOL = Decimal("0.05")
 TEXTO = """

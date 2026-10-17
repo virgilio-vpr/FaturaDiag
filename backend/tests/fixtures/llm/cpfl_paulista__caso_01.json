@@ -1,0 +1,8 @@
+{
+  "_nota": "Respostas gravadas SINTÉTICAS: ajustes aplicados sobre o esperado. Servem para exercitar o harness, não medem acurácia real.",
+  "com_hint": {},
+  "sem_hint": {
+    "consumo_ponta_kwh": "60000.000",
+    "consumo_fora_ponta_kwh": "8000.000"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "descricao": "Fatura SINTÉTICA fictícia (A4 Verde, EDP SP). Não é fatura real.",
+  "linhas": [
+    "EDP SAO PAULO DISTRIBUICAO DE ENERGIA - FATURA DE ENERGIA ELETRICA",
+    "Cliente: INDUSTRIA FICTICIA EDP S/A   UC 0020000002   Referencia 04/2026",
+    "Demanda Contratada 800,00 kW",
+    "Demanda Medida Ponta 520,00 kW",
+    "Demanda Medida Fora Ponta 760,00 kW",
+    "Consumo Ponta 20.000,000 kWh",
+    "Consumo Fora Ponta 150.000,000 kWh",
+    "Fator de potencia 0,93   Bandeira AMARELA",
+    "TOTAL A PAGAR R$ 2.000,00"
+  ],
+  "esperado": {
+    "distribuidora": "EDP SÃO PAULO",
+    "razao_social": "INDUSTRIA FICTICIA EDP S/A",
+    "cnpj": "00.000.000/0002-72",
+    "codigo_uc": "0020000002",
+    "uf": "SP",
+    "subgrupo": "A4",
+    "modalidade": "VERDE",
+    "tipo_rede": "AEREA",
+    "mes_referencia": "2026-04-01",
+    "leitura_anterior": "2026-03-04",
+    "leitura_atual": "2026-04-03",
+    "dias_faturados": 30,
+    "vencimento": "2026-04-18",
+    "demanda_contratada_ponta_kw": null,
+    "demanda_contratada_fora_ponta_kw": null,
+    "demanda_contratada_unica_kw": "800.00",
+    "demanda_medida_ponta_kw": "520.00",
+    "demanda_medida_fora_ponta_kw": "760.00",
+    "consumo_ponta_kwh": "20000.000",
+    "consumo_fora_ponta_kwh": "150000.000",
+    "reativo_ponta_kvarh": "0.000",
+    "reativo_fora_ponta_kvarh": "900.000",
+    "fator_potencia": "0.9300",
+    "icms_aliquota_pct": "18.00",
+    "pis_aliquota_pct": "1.20",
+    "cofins_aliquota_pct": "5.50",
+    "bandeira": "AMARELA",
+    "valor_total": "2000.00",
+    "itens": [
+      {"descricao": "Demanda", "categoria": "DEMANDA", "posto": "UNICO", "unidade": "kW", "quantidade": "800.00", "tarifa_unitaria": "1.250000", "valor": "1000.00"},
+      {"descricao": "Consumo TUSD", "categoria": "CONSUMO_TUSD", "posto": "UNICO", "unidade": "kWh", "quantidade": "2000.000", "tarifa_unitaria": "0.500000", "valor": "1000.00"}
+    ]
+  }
+}
