@@ -1220,7 +1220,7 @@ Acurácia por campo e distribuidora:
 - [x] **T-5.1 Storage abstrato.** `StorageBackend` + `LocalStorage` + `S3Storage` (MinIO em dev).
 - [x] **T-5.2 Upload (E1).** `POST /faturas`, validações, `sha256`, deduplicação, `Idempotency-Key`.
 - [x] **T-5.3 Leitura de PDF (E2).** Texto nativo, classificação de origem, rasterização para visão.
-- [ ] **T-5.3b Hints por distribuidora.** Criar `prompts/hints/<sigla>.md` para cada distribuidora prioritária (§3.9.3): ENEL SP/RJ, EDP SP/ES, CPFL Paulista/Piratininga, Elektro, e `_generico.md`. *Aceite:* extração com hint melhora acurácia em ≥ 5% para a distribuidora correspondente (medido no T-5.8).
+- [x] **T-5.3b Hints por distribuidora.** Criar `prompts/hints/<sigla>.md` para cada distribuidora prioritária (§3.9.3): ENEL SP/RJ, EDP SP/ES, CPFL Paulista/Piratininga, Elektro, e `_generico.md`. *Aceite:* extração com hint melhora acurácia em ≥ 5% para a distribuidora correspondente (medido no T-5.8).
 - [ ] **T-5.4 `LLMProvider`.** Interface (§10.2), um adaptador real, `FakeProvider` para testes, retries, fallback, medição de tokens/custo, cache. *Aceite:* nenhum teste de CI faz chamada de rede.
 - [ ] **T-5.5 Extração e validação (E3–E5).** Schema (Anexo E), prompt (Anexo F) + hints, regras §10.3 e §10.3.1.
 - [ ] **T-5.6 Pipeline e revisão.** `JobRunner` com `BackgroundTasks`, máquina de estados (§4.4), `PUT /faturas/{id}/dados`, `validar`, `reextrair`.
