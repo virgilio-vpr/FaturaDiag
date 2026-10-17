@@ -1,0 +1,2308 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "FaturaDiag",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v1/auth/login": {
+      "post": {
+        "tags": [
+          "autenticacao"
+        ],
+        "summary": "Login",
+        "operationId": "login_api_v1_auth_login_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/refresh": {
+      "post": {
+        "tags": [
+          "autenticacao"
+        ],
+        "summary": "Refresh",
+        "operationId": "refresh_api_v1_auth_refresh_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/logout": {
+      "post": {
+        "tags": [
+          "autenticacao"
+        ],
+        "summary": "Logout",
+        "operationId": "logout_api_v1_auth_logout_post",
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/auth/me": {
+      "get": {
+        "tags": [
+          "autenticacao"
+        ],
+        "summary": "Me",
+        "operationId": "me_api_v1_auth_me_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/clientes": {
+      "get": {
+        "tags": [
+          "clientes"
+        ],
+        "summary": "List Clients",
+        "operationId": "list_clients_api_v1_clientes_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 200,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cursor"
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 100
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Q"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientePage"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "clientes"
+        ],
+        "summary": "Create Client",
+        "operationId": "create_client_api_v1_clientes_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClienteCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClienteResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/clientes/{cliente_id}": {
+      "get": {
+        "tags": [
+          "clientes"
+        ],
+        "summary": "Get Client",
+        "operationId": "get_client_api_v1_clientes__cliente_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "cliente_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Cliente Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClienteResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "clientes"
+        ],
+        "summary": "Patch Client",
+        "operationId": "patch_client_api_v1_clientes__cliente_id__patch",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "cliente_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Cliente Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClienteUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClienteResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "clientes"
+        ],
+        "summary": "Delete Client",
+        "operationId": "delete_client_api_v1_clientes__cliente_id__delete",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "cliente_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Cliente Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/clientes/{cliente_id}/unidades": {
+      "get": {
+        "tags": [
+          "unidades"
+        ],
+        "summary": "List Customer Units",
+        "operationId": "list_customer_units_api_v1_clientes__cliente_id__unidades_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "cliente_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Cliente Id"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 200,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cursor"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnidadePage"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "unidades"
+        ],
+        "summary": "Create Customer Unit",
+        "operationId": "create_customer_unit_api_v1_clientes__cliente_id__unidades_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "cliente_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Cliente Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UnidadeCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnidadeResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/unidades/{unidade_id}": {
+      "get": {
+        "tags": [
+          "unidades"
+        ],
+        "summary": "Get Unit",
+        "operationId": "get_unit_api_v1_unidades__unidade_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "unidade_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Unidade Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnidadeResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "unidades"
+        ],
+        "summary": "Patch Unit",
+        "operationId": "patch_unit_api_v1_unidades__unidade_id__patch",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "unidade_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Unidade Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UnidadeUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnidadeResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/unidades/{unidade_id}/contratos": {
+      "get": {
+        "tags": [
+          "unidades"
+        ],
+        "summary": "List Unit Contracts",
+        "operationId": "list_unit_contracts_api_v1_unidades__unidade_id__contratos_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "unidade_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Unidade Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ContratoResponse"
+                  },
+                  "title": "Response List Unit Contracts Api V1 Unidades  Unidade Id  Contratos Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "unidades"
+        ],
+        "summary": "Create Unit Contract",
+        "operationId": "create_unit_contract_api_v1_unidades__unidade_id__contratos_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "unidade_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Unidade Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContratoCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContratoResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/parametros": {
+      "get": {
+        "tags": [
+          "parâmetros regulatórios"
+        ],
+        "summary": "Get Regulatory Parameters",
+        "operationId": "get_regulatory_parameters_api_v1_admin_parametros_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Data"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParametrosRegulatoriosResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "parâmetros regulatórios"
+        ],
+        "summary": "Put Regulatory Parameter",
+        "operationId": "put_regulatory_parameter_api_v1_admin_parametros_put",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ParametroRegulatorioUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParametroRegulatorioResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/hints": {
+      "get": {
+        "tags": [
+          "hints"
+        ],
+        "summary": "Get Hints",
+        "operationId": "get_hints_api_v1_admin_hints_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "distribuidora_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Distribuidora Id"
+            }
+          },
+          {
+            "name": "data",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Data"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HintDistribuidoraList"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "hints"
+        ],
+        "summary": "Put Hint",
+        "operationId": "put_hint_api_v1_admin_hints_put",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HintDistribuidoraUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HintDistribuidoraResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/hints/{distribuidora_id}/versionar": {
+      "post": {
+        "tags": [
+          "hints"
+        ],
+        "summary": "Create Hint Version",
+        "operationId": "create_hint_version_api_v1_admin_hints__distribuidora_id__versionar_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "distribuidora_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Distribuidora Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HintDistribuidoraVersionCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HintDistribuidoraResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AmbienteUnidade": {
+        "type": "string",
+        "enum": [
+          "CATIVO",
+          "LIVRE"
+        ],
+        "title": "AmbienteUnidade"
+      },
+      "ClienteCreate": {
+        "properties": {
+          "razao_social": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 1,
+            "title": "Razao Social"
+          },
+          "nome_fantasia": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nome Fantasia"
+          },
+          "cnpj": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 18,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cnpj"
+          },
+          "segmento": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "HOSPITAL",
+                  "INDUSTRIA",
+                  "COMERCIO",
+                  "CONDOMINIO",
+                  "OUTRO"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Segmento"
+          },
+          "observacoes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Observacoes"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "razao_social"
+        ],
+        "title": "ClienteCreate"
+      },
+      "ClientePage": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ClienteResponse"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "limit": {
+            "type": "integer",
+            "title": "Limit"
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Cursor"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "limit",
+          "next_cursor"
+        ],
+        "title": "ClientePage"
+      },
+      "ClienteResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "organizacao_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Organizacao Id"
+          },
+          "razao_social": {
+            "type": "string",
+            "title": "Razao Social"
+          },
+          "nome_fantasia": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nome Fantasia"
+          },
+          "cnpj": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cnpj"
+          },
+          "segmento": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Segmento"
+          },
+          "observacoes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Observacoes"
+          },
+          "criado_em": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Criado Em"
+          },
+          "atualizado_em": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Atualizado Em"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "organizacao_id",
+          "razao_social",
+          "nome_fantasia",
+          "cnpj",
+          "segmento",
+          "observacoes",
+          "criado_em",
+          "atualizado_em"
+        ],
+        "title": "ClienteResponse"
+      },
+      "ClienteUpdate": {
+        "properties": {
+          "razao_social": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Razao Social"
+          },
+          "nome_fantasia": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nome Fantasia"
+          },
+          "cnpj": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 18,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cnpj"
+          },
+          "segmento": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "HOSPITAL",
+                  "INDUSTRIA",
+                  "COMERCIO",
+                  "CONDOMINIO",
+                  "OUTRO"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Segmento"
+          },
+          "observacoes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Observacoes"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "ClienteUpdate"
+      },
+      "ContratoCreate": {
+        "properties": {
+          "modalidade": {
+            "$ref": "#/components/schemas/ModalidadeDemanda"
+          },
+          "demanda_ponta_kw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Demanda Ponta Kw"
+          },
+          "demanda_fora_ponta_kw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Demanda Fora Ponta Kw"
+          },
+          "demanda_unica_kw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Demanda Unica Kw"
+          },
+          "vigencia_inicio": {
+            "type": "string",
+            "format": "date",
+            "title": "Vigencia Inicio"
+          },
+          "vigencia_fim": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Vigencia Fim"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "modalidade",
+          "vigencia_inicio"
+        ],
+        "title": "ContratoCreate"
+      },
+      "ContratoResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "uc_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Uc Id"
+          },
+          "modalidade": {
+            "type": "string",
+            "title": "Modalidade"
+          },
+          "demanda_ponta_kw": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Demanda Ponta Kw"
+          },
+          "demanda_fora_ponta_kw": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Demanda Fora Ponta Kw"
+          },
+          "demanda_unica_kw": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Demanda Unica Kw"
+          },
+          "vigencia_inicio": {
+            "type": "string",
+            "format": "date",
+            "title": "Vigencia Inicio"
+          },
+          "vigencia_fim": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Vigencia Fim"
+          },
+          "criado_em": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Criado Em"
+          },
+          "atualizado_em": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Atualizado Em"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "uc_id",
+          "modalidade",
+          "demanda_ponta_kw",
+          "demanda_fora_ponta_kw",
+          "demanda_unica_kw",
+          "vigencia_inicio",
+          "vigencia_fim",
+          "criado_em",
+          "atualizado_em"
+        ],
+        "title": "ContratoResponse"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "HintDistribuidoraList": {
+        "properties": {
+          "itens": {
+            "items": {
+              "$ref": "#/components/schemas/HintDistribuidoraResponse"
+            },
+            "type": "array",
+            "title": "Itens"
+          }
+        },
+        "type": "object",
+        "required": [
+          "itens"
+        ],
+        "title": "HintDistribuidoraList"
+      },
+      "HintDistribuidoraResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "distribuidora_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Distribuidora Id"
+          },
+          "versao": {
+            "type": "string",
+            "title": "Versao"
+          },
+          "arquivo_md": {
+            "type": "string",
+            "title": "Arquivo Md"
+          },
+          "vigencia_inicio": {
+            "type": "string",
+            "format": "date",
+            "title": "Vigencia Inicio"
+          },
+          "vigencia_fim": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Vigencia Fim"
+          },
+          "ativo": {
+            "type": "boolean",
+            "title": "Ativo"
+          },
+          "criado_em": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Criado Em"
+          },
+          "atualizado_em": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Atualizado Em"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "distribuidora_id",
+          "versao",
+          "arquivo_md",
+          "vigencia_inicio",
+          "vigencia_fim",
+          "ativo",
+          "criado_em",
+          "atualizado_em"
+        ],
+        "title": "HintDistribuidoraResponse"
+      },
+      "HintDistribuidoraUpdate": {
+        "properties": {
+          "distribuidora_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Distribuidora Id"
+          },
+          "versao": {
+            "type": "string",
+            "maxLength": 32,
+            "minLength": 1,
+            "title": "Versao"
+          },
+          "arquivo_md": {
+            "type": "string",
+            "maxLength": 100000,
+            "minLength": 1,
+            "title": "Arquivo Md"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "distribuidora_id",
+          "versao",
+          "arquivo_md"
+        ],
+        "title": "HintDistribuidoraUpdate"
+      },
+      "HintDistribuidoraVersionCreate": {
+        "properties": {
+          "versao": {
+            "type": "string",
+            "maxLength": 32,
+            "minLength": 1,
+            "title": "Versao"
+          },
+          "arquivo_md": {
+            "type": "string",
+            "maxLength": 100000,
+            "minLength": 1,
+            "title": "Arquivo Md"
+          },
+          "vigencia_inicio": {
+            "type": "string",
+            "format": "date",
+            "title": "Vigencia Inicio"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "versao",
+          "arquivo_md",
+          "vigencia_inicio"
+        ],
+        "title": "HintDistribuidoraVersionCreate"
+      },
+      "LoginRequest": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 3,
+            "title": "Email"
+          },
+          "senha": {
+            "type": "string",
+            "maxLength": 256,
+            "minLength": 1,
+            "title": "Senha"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email",
+          "senha"
+        ],
+        "title": "LoginRequest"
+      },
+      "ModalidadeDemanda": {
+        "type": "string",
+        "enum": [
+          "AZUL",
+          "VERDE",
+          "CONVENCIONAL"
+        ],
+        "title": "ModalidadeDemanda"
+      },
+      "ParametroRegulatorioResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "chave": {
+            "type": "string",
+            "title": "Chave"
+          },
+          "valor": {
+            "title": "Valor"
+          },
+          "vigencia_inicio": {
+            "type": "string",
+            "format": "date",
+            "title": "Vigencia Inicio"
+          },
+          "vigencia_fim": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Vigencia Fim"
+          },
+          "fonte": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fonte"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "validado_por": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Validado Por"
+          },
+          "validado_em": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Validado Em"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "chave",
+          "valor",
+          "vigencia_inicio",
+          "vigencia_fim",
+          "fonte",
+          "status",
+          "validado_por",
+          "validado_em"
+        ],
+        "title": "ParametroRegulatorioResponse"
+      },
+      "ParametroRegulatorioUpdate": {
+        "properties": {
+          "chave": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 1,
+            "title": "Chave"
+          },
+          "valor": {
+            "title": "Valor"
+          },
+          "vigencia_inicio": {
+            "type": "string",
+            "format": "date",
+            "title": "Vigencia Inicio"
+          },
+          "vigencia_fim": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Vigencia Fim"
+          },
+          "fonte": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 10000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fonte"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "VALIDAR",
+              "VALIDADO"
+            ],
+            "title": "Status",
+            "default": "VALIDAR"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "chave",
+          "valor",
+          "vigencia_inicio"
+        ],
+        "title": "ParametroRegulatorioUpdate"
+      },
+      "ParametrosRegulatoriosResponse": {
+        "properties": {
+          "data_referencia": {
+            "type": "string",
+            "format": "date",
+            "title": "Data Referencia"
+          },
+          "itens": {
+            "items": {
+              "$ref": "#/components/schemas/ParametroRegulatorioResponse"
+            },
+            "type": "array",
+            "title": "Itens"
+          },
+          "pendentes_validacao": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Pendentes Validacao"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data_referencia",
+          "itens",
+          "pendentes_validacao"
+        ],
+        "title": "ParametrosRegulatoriosResponse"
+      },
+      "RefreshRequest": {
+        "properties": {
+          "refresh_token": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Refresh Token"
+          }
+        },
+        "type": "object",
+        "required": [
+          "refresh_token"
+        ],
+        "title": "RefreshRequest"
+      },
+      "Subgrupo": {
+        "type": "string",
+        "enum": [
+          "A1",
+          "A2",
+          "A3",
+          "A3a",
+          "A4",
+          "AS"
+        ],
+        "title": "Subgrupo"
+      },
+      "TipoRede": {
+        "type": "string",
+        "enum": [
+          "AEREA",
+          "SUBTERRANEA"
+        ],
+        "title": "TipoRede"
+      },
+      "TokenResponse": {
+        "properties": {
+          "access_token": {
+            "type": "string",
+            "title": "Access Token"
+          },
+          "refresh_token": {
+            "type": "string",
+            "title": "Refresh Token"
+          },
+          "token_type": {
+            "type": "string",
+            "title": "Token Type",
+            "default": "bearer"
+          },
+          "expires_in": {
+            "type": "integer",
+            "title": "Expires In"
+          }
+        },
+        "type": "object",
+        "required": [
+          "access_token",
+          "refresh_token",
+          "expires_in"
+        ],
+        "title": "TokenResponse"
+      },
+      "UnidadeCreate": {
+        "properties": {
+          "distribuidora_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Distribuidora Id"
+          },
+          "codigo_uc": {
+            "type": "string",
+            "maxLength": 80,
+            "minLength": 1,
+            "title": "Codigo Uc"
+          },
+          "apelido": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Apelido"
+          },
+          "uf": {
+            "type": "string",
+            "maxLength": 2,
+            "minLength": 2,
+            "title": "Uf"
+          },
+          "municipio": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 1,
+            "title": "Municipio"
+          },
+          "subgrupo": {
+            "$ref": "#/components/schemas/Subgrupo"
+          },
+          "tipo_rede": {
+            "$ref": "#/components/schemas/TipoRede"
+          },
+          "ambiente": {
+            "$ref": "#/components/schemas/AmbienteUnidade"
+          },
+          "tensao_kv": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tensao Kv"
+          },
+          "observacoes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Observacoes"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "distribuidora_id",
+          "codigo_uc",
+          "uf",
+          "municipio",
+          "subgrupo",
+          "tipo_rede",
+          "ambiente"
+        ],
+        "title": "UnidadeCreate"
+      },
+      "UnidadePage": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/UnidadeResponse"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "limit": {
+            "type": "integer",
+            "title": "Limit"
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Cursor"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "limit",
+          "next_cursor"
+        ],
+        "title": "UnidadePage"
+      },
+      "UnidadeResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "organizacao_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Organizacao Id"
+          },
+          "cliente_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Cliente Id"
+          },
+          "distribuidora_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Distribuidora Id"
+          },
+          "codigo_uc": {
+            "type": "string",
+            "title": "Codigo Uc"
+          },
+          "apelido": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Apelido"
+          },
+          "uf": {
+            "type": "string",
+            "title": "Uf"
+          },
+          "municipio": {
+            "type": "string",
+            "title": "Municipio"
+          },
+          "subgrupo": {
+            "type": "string",
+            "title": "Subgrupo"
+          },
+          "tipo_rede": {
+            "type": "string",
+            "title": "Tipo Rede"
+          },
+          "ambiente": {
+            "type": "string",
+            "title": "Ambiente"
+          },
+          "tensao_kv": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tensao Kv"
+          },
+          "observacoes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Observacoes"
+          },
+          "criado_em": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Criado Em"
+          },
+          "atualizado_em": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Atualizado Em"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "organizacao_id",
+          "cliente_id",
+          "distribuidora_id",
+          "codigo_uc",
+          "apelido",
+          "uf",
+          "municipio",
+          "subgrupo",
+          "tipo_rede",
+          "ambiente",
+          "tensao_kv",
+          "observacoes",
+          "criado_em",
+          "atualizado_em"
+        ],
+        "title": "UnidadeResponse"
+      },
+      "UnidadeUpdate": {
+        "properties": {
+          "codigo_uc": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 80,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Codigo Uc"
+          },
+          "apelido": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 255
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Apelido"
+          },
+          "uf": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2,
+                "minLength": 2
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Uf"
+          },
+          "municipio": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 120,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Municipio"
+          },
+          "subgrupo": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Subgrupo"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "tipo_rede": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TipoRede"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "ambiente": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AmbienteUnidade"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "tensao_kv": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tensao Kv"
+          },
+          "observacoes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Observacoes"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "UnidadeUpdate"
+      },
+      "UserResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "organizacao_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Organizacao Id"
+          },
+          "email": {
+            "type": "string",
+            "title": "Email"
+          },
+          "nome": {
+            "type": "string",
+            "title": "Nome"
+          },
+          "papel": {
+            "type": "string",
+            "title": "Papel"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "organizacao_id",
+          "email",
+          "nome",
+          "papel"
+        ],
+        "title": "UserResponse"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    },
+    "securitySchemes": {
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

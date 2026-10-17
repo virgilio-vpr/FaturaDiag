@@ -1,4 +1,4 @@
-.PHONY: up down migrate seed lint types test check eval-extraction openapi report-sample
+.PHONY: up down migrate seed import-tariffs lint types test check eval-extraction openapi report-sample
 
 up:
 	docker compose up -d --build
@@ -12,6 +12,9 @@ migrate:
 seed:
 	docker compose exec backend uv run python -m app.scripts.seed
 
+import-tariffs:
+	cd backend && uv run python -m app.scripts.import_tariffs
+
 lint:
 	cd backend && uv run ruff check . && uv run ruff format --check . && uv run mypy app && uv run lint-imports
 
@@ -22,7 +25,7 @@ openapi:
 	cd backend && uv run python -m app.scripts.export_openapi > ../frontend/openapi.json
 
 types: openapi
-	cd frontend && npx openapi-typescript openapi.json -o src/api/schema.d.ts
+	cd frontend && npx --yes openapi-typescript openapi.json -o src/api/schema.d.ts
 
 check: lint test
 

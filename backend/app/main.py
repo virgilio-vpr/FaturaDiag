@@ -5,12 +5,19 @@ from uuid import uuid4
 import structlog
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from slowapi.errors import RateLimitExceeded
 from starlette.responses import Response
 
 from app.core.errors import problem_response, register_exception_handlers
 from app.core.health import check_dependencies
 from app.core.logging import configure_logging
 from app.core.settings import Settings
+from app.modules.auth.router import limiter, rate_limit_problem
+from app.modules.auth.router import router as auth_router
+from app.modules.clientes.router import router as clientes_router
+from app.modules.tarifas.hints_router import router as hints_router
+from app.modules.tarifas.parametros_router import router as parametros_router
+from app.modules.unidades.router import router as unidades_router
 
 settings = Settings()
 configure_logging(settings.log_level)
@@ -25,6 +32,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 register_exception_handlers(app)
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, rate_limit_problem)
+app.include_router(auth_router, prefix="/api/v1")
+app.include_router(clientes_router, prefix="/api/v1")
+app.include_router(unidades_router, prefix="/api/v1")
+app.include_router(parametros_router, prefix="/api/v1")
+app.include_router(hints_router, prefix="/api/v1")
 
 NextHandler = Callable[[Request], Awaitable[Response]]
 

@@ -1147,9 +1147,9 @@ Acurácia por campo e distribuidora:
 
 | Fase | Escopo | Status |
 |---|---|---|
-| 0 | Fundação (repo, Docker, esqueleto, CI) | `[ ]` |
-| 1 | Identidade, RBAC e multi-tenancy | `[ ]` |
-| 2 | Cadastros (clientes, UCs, contratos, distribuidoras) | `[ ]` |
+| 0 | Fundação (repo, Docker, esqueleto, CI) | `[x]` |
+| 1 | Identidade, RBAC e multi-tenancy | `[x]` |
+| 2 | Cadastros (clientes, UCs, contratos, distribuidoras) | `[x]` |
 | 3 | Tarifas e parâmetros regulatórios | `[ ]` |
 | 4 | **Motor de cálculo** (domínio puro, TDD) | `[ ]` |
 | 5 | Ingestão e extração por IA | `[ ]` |
@@ -1180,25 +1180,25 @@ Acurácia por campo e distribuidora:
 
 ### Fase 1 — Identidade e multi-tenancy
 
-- [ ] **T-1.1 Autenticação.** Modelos `organizacao`/`usuario`, Argon2, `login/refresh/logout/me`, rate limit. *Aceite:* testes de sucesso, senha errada, token expirado, bloqueio progressivo.
-- [ ] **T-1.2 RBAC e escopo de tenant.** `requer_papel(...)`; `BaseRepository` que **exige** `organizacao_id`. *Aceite:* repositório sem tenant levanta erro; teste por papel.
-- [ ] **T-1.3 Seed.** `make seed` cria organização demo e `ADMIN` (senha via env).
-- [ ] **T-1.4 Isolamento.** Teste parametrizado que percorre as rotas existentes provando que a org A não acessa dados da org B. *Aceite:* 100 %; passa a ser requisito de toda rota nova.
+- [x] **T-1.1 Autenticação.** Modelos `organizacao`/`usuario`, Argon2, `login/refresh/logout/me`, rate limit. *Aceite:* testes de sucesso, senha errada, token expirado, bloqueio progressivo.
+- [x] **T-1.2 RBAC e escopo de tenant.** `requer_papel(...)`; `BaseRepository` que **exige** `organizacao_id`. *Aceite:* repositório sem tenant levanta erro; teste por papel.
+- [x] **T-1.3 Seed.** `make seed` cria organização demo e `ADMIN` (senha via env).
+- [x] **T-1.4 Isolamento.** Teste parametrizado que percorre as rotas existentes provando que a org A não acessa dados da org B. *Aceite:* 100 %; passa a ser requisito de toda rota nova.
 
 ### Fase 2 — Cadastros
 
-- [ ] **T-2.1 Distribuidoras e feriados (seed).** Tabelas globais; janelas de ponta marcadas `VALIDAR`; seed com distribuidoras prioritárias (§3.9.3).
-- [ ] **T-2.2 Audit log.** Serviço/decorator reutilizável (§14.3).
-- [ ] **T-2.3 Clientes (CRUD).** Com soft delete, busca e paginação.
-- [ ] **T-2.4 UCs e contratos de demanda (CRUD).** Constraints `CHECK` do §8.2 e **validações de elegibilidade (§3.8.3)**. *Aceite:* Verde sem `demanda_unica_kw` é rejeitado; Azul sem ponta/fora de ponta é rejeitado; Verde para A3 é rejeitado; AS sem rede subterrânea é rejeitado; demanda < 30 kW é rejeitada.
+- [x] **T-2.1 Distribuidoras e feriados (seed).** Tabelas globais; janelas de ponta marcadas `VALIDAR`; seed com distribuidoras prioritárias (§3.9.3).
+- [x] **T-2.2 Audit log.** Serviço/decorator reutilizável (§14.3).
+- [x] **T-2.3 Clientes (CRUD).** Com soft delete, busca e paginação.
+- [x] **T-2.4 UCs e contratos de demanda (CRUD).** Constraints `CHECK` do §8.2 e **validações de elegibilidade (§3.8.3)**. *Aceite:* Verde sem `demanda_unica_kw` é rejeitado; Azul sem ponta/fora de ponta é rejeitado; Verde para A3 é rejeitado; AS sem rede subterrânea é rejeitado; demanda < 30 kW é rejeitada.
 
 ### Fase 3 — Tarifas e parâmetros
 
-- [ ] **T-3.1 Modelos** `tarifa`, `bandeira_tarifaria`, `parametro_regulatorio`, `hint_distribuidora` + migração.
-- [ ] **T-3.2 Importador de tarifas ANEEL.** Receber **CSV de dados abertos enviado pelo humano** (D-11); **inspecionar as colunas reais do arquivo — não adivinhar nomes**. Importação idempotente com relatório. *Aceite:* testes com CSV de amostra reduzido.
-- [ ] **T-3.3 Resolvedor de tarifa.** `resolver_tarifa(distribuidora, subgrupo, modalidade, posto, componente, data)`; vigência em intervalo **semiaberto `[inicio, fim)`**, `fim NULL` = vigente; erro explícito `TarifaNaoEncontrada`. *Aceite:* testes de borda.
-- [ ] **T-3.4 Parâmetros regulatórios.** *Seed* do §3.5 com status `VALIDAR`; endpoints admin; carregador com vigência e cache; objeto imutável `ParametrosRegulatorios` passado ao domínio.
-- [ ] **T-3.5 Gestão de hints.** CRUD de hints por distribuidora; versionamento; resolução por data da fatura. *Aceite:* API admin funcional; testes de versionamento.
+- [x] **T-3.1 Modelos** `tarifa`, `bandeira_tarifaria`, `parametro_regulatorio`, `hint_distribuidora` + migração.
+- [x] **T-3.2 Importador de tarifas ANEEL.** Lê o CSV real de dados abertos (delimitador `;`, valores decimais com vírgula), importa tarifas de aplicação do Grupo A para distribuidoras prioritárias identificadas por CNPJ, descarta explicitamente bases/modalidades/classes/postos fora do escopo e relata linhas ignoradas, duplicatas e conflitos. Datas finais inclusivas da ANEEL são convertidas para vigência semiaberta. Idempotente; `make import-tariffs`. *Aceite:* testes com CSV de amostra reduzido.
+- [x] **T-3.3 Resolvedor de tarifa.** `resolver_tarifa(distribuidora, subgrupo, modalidade, posto, componente, data)`; vigência em intervalo **semiaberto `[inicio, fim)`**, `fim NULL` = vigente; erro explícito `TarifaNaoEncontrada`. *Aceite:* testes de borda.
+- [x] **T-3.4 Parâmetros regulatórios.** *Seed* do §3.5 com status `VALIDAR`; endpoints admin; carregador com vigência e cache; objeto imutável `ParametrosRegulatorios` passado ao domínio.
+- [x] **T-3.5 Gestão de hints.** CRUD de hints por distribuidora; versionamento; resolução por data da fatura. *Aceite:* API admin funcional; testes de versionamento.
 
 ### Fase 4 — Motor de cálculo (domínio puro, TDD)
 
