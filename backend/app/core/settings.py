@@ -1,3 +1,4 @@
+from decimal import Decimal
 from typing import Self
 
 from pydantic import SecretStr, model_validator
@@ -36,7 +37,9 @@ class Settings(BaseSettings):
     llm_api_key: SecretStr = SecretStr("")
     llm_base_url: str = ""
     llm_timeout_s: int = 90
-    llm_monthly_budget_brl: float = 0.0
+    llm_monthly_budget_brl: Decimal = Decimal(0)
+    llm_preco_entrada_brl_por_mtok: Decimal = Decimal(0)
+    llm_preco_saida_brl_por_mtok: Decimal = Decimal(0)
 
     @model_validator(mode="after")
     def validate_production_secret(self) -> Self:
