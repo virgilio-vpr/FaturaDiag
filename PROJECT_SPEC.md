@@ -1207,8 +1207,8 @@ Acurácia por campo e distribuidora:
 - [x] **T-4.1 Tipos e *trace*.** Dataclasses imutáveis, enums, utilitários de arredondamento (`ROUND_HALF_UP`).
 - [x] **T-4.2 Ultrapassagem** (§3.4.1) — G-01, G-02a, G-02b, G-13, G-14.
 - [x] **T-4.3 Reativos** (§3.4.2) — G-03a/b/c, G-07.
-- [ ] **T-4.4 Tributos** (§3.4.3) — G-05.
-- [ ] **T-4.5 Indicadores** (§3.4.4).
+- [x] **T-4.4 Tributos** (§3.4.3) — G-05.
+- [x] **T-4.5 Indicadores** (§3.4.4).
 - [ ] **T-4.6 Demanda ótima** (§3.4.5) — G-04.
 - [ ] **T-4.7 Azul × Verde** (§3.4.6) — **prioridade máxima para A4 e AS**.
 - [ ] **T-4.8 Simulação ACL** (§3.4.7) — G-06.
