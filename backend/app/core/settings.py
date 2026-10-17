@@ -25,6 +25,18 @@ class Settings(BaseSettings):
     s3_bucket: str = "energydiag"
     s3_access_key: str = "minioadmin"
     s3_secret_key: SecretStr = SecretStr("minioadmin")
+    storage_backend: str = "local"
+    storage_local_path: str = "./data/storage"
+    max_upload_mb: int = 20
+    max_pdf_pages: int = 12
+    llm_provider: str = "fake"
+    llm_model: str = ""
+    llm_fallback_provider: str = ""
+    llm_fallback_model: str = ""
+    llm_api_key: SecretStr = SecretStr("")
+    llm_base_url: str = ""
+    llm_timeout_s: int = 90
+    llm_monthly_budget_brl: float = 0.0
 
     @model_validator(mode="after")
     def validate_production_secret(self) -> Self:

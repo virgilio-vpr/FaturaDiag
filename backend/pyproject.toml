@@ -15,10 +15,20 @@ dependencies = [
     "structlog",
     "uvicorn[standard]",
     "holidays>=0.106",
+    "python-multipart>=0.0.32",
+    "pdfplumber>=0.11.10",
+    "pypdfium2>=5.14.0",
+    "pillow>=13.0.0",
+    "pillow-heif>=1.8.1",
+    "filetype>=1.2.0",
+    "tenacity>=9.2.1",
+    "boto3>=1.43.114",
+    "httpx>=0.28.1",
 ]
 
 [dependency-groups]
 dev = [
+    "boto3-stubs[s3]>=1.43.114",
     "httpx",
     "hypothesis>=6.170.1",
     "import-linter",

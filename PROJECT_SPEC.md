@@ -1217,7 +1217,7 @@ Acurácia por campo e distribuidora:
 
 ### Fase 5 — Ingestão e extração por IA
 
-- [ ] **T-5.1 Storage abstrato.** `StorageBackend` + `LocalStorage` + `S3Storage` (MinIO em dev).
+- [x] **T-5.1 Storage abstrato.** `StorageBackend` + `LocalStorage` + `S3Storage` (MinIO em dev).
 - [ ] **T-5.2 Upload (E1).** `POST /faturas`, validações, `sha256`, deduplicação, `Idempotency-Key`.
 - [ ] **T-5.3 Leitura de PDF (E2).** Texto nativo, classificação de origem, rasterização para visão.
 - [ ] **T-5.3b Hints por distribuidora.** Criar `prompts/hints/<sigla>.md` para cada distribuidora prioritária (§3.9.3): ENEL SP/RJ, EDP SP/ES, CPFL Paulista/Piratininga, Elektro, e `_generico.md`. *Aceite:* extração com hint melhora acurácia em ≥ 5% para a distribuidora correspondente (medido no T-5.8).

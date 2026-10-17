@@ -31,3 +31,4 @@
 - Adicionada simulação de migração ao ACL com cenários de preço informados, break-even, sensibilidade, payback e checklist, caso dourado G-06 (T-4.8).
 - Adicionados catálogo de achados e orquestrador `diagnosticar(insumos, parametros)` do motor, com apuração mensal, indicadores, demanda ótima, comparação de modalidades, ACL e achados com trace (T-4.9).
 - Adicionados testes de propriedade com `hypothesis`, guardas que falham com `float` ou tarifas literais em `domain/` e gate de cobertura ≥ 95 % do domínio no `make check` (T-4.10).
+- Adicionado `StorageBackend` com `LocalStorage` (anti path traversal) e `S3Storage` (boto3, MIT/Apache; compatível com MinIO/RustFS) e configurações de upload/LLM; dependências da Fase 5 adicionadas: python-multipart, pdfplumber (MIT), pypdfium2 (Apache/BSD), pillow + pillow-heif (HEIC), filetype (magic bytes), tenacity (retries), boto3, httpx (T-5.1).
