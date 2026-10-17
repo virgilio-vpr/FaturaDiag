@@ -408,6 +408,10 @@ class Fatura(TenantMixin, TimestampMixin, Base):
     cofins_aliquota: Mapped[Decimal | None] = mapped_column(Numeric(7, 6), nullable=True)
     bandeira: Mapped[str | None] = mapped_column(String(24), nullable=True)
     valor_total: Mapped[Decimal | None] = mapped_column(Numeric(16, 2), nullable=True)
+    codigo_uc: Mapped[str | None] = mapped_column(String(80), nullable=True)
+    subgrupo: Mapped[str | None] = mapped_column(String(8), nullable=True)
+    modalidade: Mapped[str | None] = mapped_column(String(16), nullable=True)
+    tipo_rede: Mapped[str | None] = mapped_column(String(16), nullable=True)
     validada_por: Mapped[UUID | None] = mapped_column(ForeignKey("usuario.id"), nullable=True)
     validada_em: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
 

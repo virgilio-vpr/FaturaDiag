@@ -1084,6 +1084,350 @@
             }
           }
         }
+      },
+      "get": {
+        "tags": [
+          "faturas"
+        ],
+        "summary": "Listar",
+        "operationId": "listar_api_v1_faturas_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status"
+            }
+          },
+          {
+            "name": "uc_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Uc Id"
+            }
+          },
+          {
+            "name": "limite",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 200,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limite"
+            }
+          },
+          {
+            "name": "deslocamento",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Deslocamento"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FaturaResumo"
+                  },
+                  "title": "Response Listar Api V1 Faturas Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/faturas/{fatura_id}": {
+      "get": {
+        "tags": [
+          "faturas"
+        ],
+        "summary": "Detalhar",
+        "operationId": "detalhar_api_v1_faturas__fatura_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "fatura_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Fatura Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FaturaResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/faturas/{fatura_id}/arquivo": {
+      "get": {
+        "tags": [
+          "faturas"
+        ],
+        "summary": "Baixar Arquivo",
+        "operationId": "baixar_arquivo_api_v1_faturas__fatura_id__arquivo_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "fatura_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Fatura Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/faturas/{fatura_id}/dados": {
+      "put": {
+        "tags": [
+          "faturas"
+        ],
+        "summary": "Revisar Dados",
+        "operationId": "revisar_dados_api_v1_faturas__fatura_id__dados_put",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "fatura_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Fatura Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DadosFaturaUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FaturaResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/faturas/{fatura_id}/validar": {
+      "post": {
+        "tags": [
+          "faturas"
+        ],
+        "summary": "Validar",
+        "operationId": "validar_api_v1_faturas__fatura_id__validar_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "fatura_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Fatura Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FaturaResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/faturas/{fatura_id}/reextrair": {
+      "post": {
+        "tags": [
+          "faturas"
+        ],
+        "summary": "Reextrair",
+        "operationId": "reextrair_api_v1_faturas__fatura_id__reextrair_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "fatura_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Fatura Id"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FaturaUploadResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
       }
     }
   },
@@ -1122,6 +1466,24 @@
           "arquivo"
         ],
         "title": "Body_upload_fatura_api_v1_faturas_post"
+      },
+      "CategoriaItem": {
+        "type": "string",
+        "enum": [
+          "DEMANDA",
+          "DEMANDA_ULTRAPASSAGEM",
+          "CONSUMO_TUSD",
+          "CONSUMO_TE",
+          "ENERGIA_REATIVA_EXCEDENTE",
+          "DEMANDA_REATIVA_EXCEDENTE",
+          "BANDEIRA",
+          "ILUMINACAO_PUBLICA",
+          "MULTA_JUROS",
+          "AJUSTE_CREDITO_DEBITO",
+          "TRIBUTO_INFORMATIVO",
+          "OUTROS"
+        ],
+        "title": "CategoriaItem"
       },
       "ClienteCreate": {
         "properties": {
@@ -1551,6 +1913,829 @@
         ],
         "title": "ContratoResponse"
       },
+      "DadosFaturaUpdate": {
+        "properties": {
+          "uc_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Uc Id"
+          },
+          "codigo_uc": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 80
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Codigo Uc"
+          },
+          "subgrupo": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "A1",
+                  "A2",
+                  "A3",
+                  "A3a",
+                  "A4",
+                  "AS"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Subgrupo"
+          },
+          "modalidade": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "AZUL",
+                  "VERDE",
+                  "CONVENCIONAL"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Modalidade"
+          },
+          "tipo_rede": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "AEREA",
+                  "SUBTERRANEA"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tipo Rede"
+          },
+          "mes_referencia": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mes Referencia"
+          },
+          "leitura_anterior": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Leitura Anterior"
+          },
+          "leitura_atual": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Leitura Atual"
+          },
+          "dias_faturados": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 100.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dias Faturados"
+          },
+          "vencimento": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Vencimento"
+          },
+          "dc_ponta_kw": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dc Ponta Kw"
+          },
+          "dc_fora_ponta_kw": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dc Fora Ponta Kw"
+          },
+          "dc_unica_kw": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dc Unica Kw"
+          },
+          "dm_ponta_kw": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dm Ponta Kw"
+          },
+          "dm_fora_ponta_kw": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dm Fora Ponta Kw"
+          },
+          "consumo_ponta_kwh": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Consumo Ponta Kwh"
+          },
+          "consumo_fora_ponta_kwh": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Consumo Fora Ponta Kwh"
+          },
+          "reativo_ponta_kvarh": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reativo Ponta Kvarh"
+          },
+          "reativo_fora_ponta_kvarh": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reativo Fora Ponta Kvarh"
+          },
+          "fator_potencia": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 1.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fator Potencia"
+          },
+          "icms_aliquota": {
+            "anyOf": [
+              {
+                "type": "number",
+                "exclusiveMaximum": 1.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Icms Aliquota"
+          },
+          "pis_aliquota": {
+            "anyOf": [
+              {
+                "type": "number",
+                "exclusiveMaximum": 1.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pis Aliquota"
+          },
+          "cofins_aliquota": {
+            "anyOf": [
+              {
+                "type": "number",
+                "exclusiveMaximum": 1.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cofins Aliquota"
+          },
+          "bandeira": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "VERDE",
+                  "AMARELA",
+                  "VERMELHA_1",
+                  "VERMELHA_2"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Bandeira"
+          },
+          "valor_total": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Valor Total"
+          },
+          "itens": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ItemDados"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Itens"
+          }
+        },
+        "type": "object",
+        "title": "DadosFaturaUpdate",
+        "description": "Valores revisados; campos ausentes permanecem como estão. Alíquotas em fração (0.18)."
+      },
+      "FaturaItemResponse": {
+        "properties": {
+          "ordem": {
+            "type": "integer",
+            "title": "Ordem"
+          },
+          "descricao": {
+            "type": "string",
+            "title": "Descricao"
+          },
+          "categoria": {
+            "type": "string",
+            "title": "Categoria"
+          },
+          "posto": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Posto"
+          },
+          "unidade": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unidade"
+          },
+          "quantidade": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Quantidade"
+          },
+          "tarifa_unitaria": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tarifa Unitaria"
+          },
+          "valor": {
+            "type": "string",
+            "title": "Valor"
+          }
+        },
+        "type": "object",
+        "required": [
+          "ordem",
+          "descricao",
+          "categoria",
+          "posto",
+          "unidade",
+          "quantidade",
+          "tarifa_unitaria",
+          "valor"
+        ],
+        "title": "FaturaItemResponse"
+      },
+      "FaturaResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "uc_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Uc Id"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "origem": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Origem"
+          },
+          "mes_referencia": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mes Referencia"
+          },
+          "valor_total": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Valor Total"
+          },
+          "confianca_minima": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Confianca Minima"
+          },
+          "criado_em": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Criado Em"
+          },
+          "arquivo_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Arquivo Id"
+          },
+          "leitura_anterior": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Leitura Anterior"
+          },
+          "leitura_atual": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Leitura Atual"
+          },
+          "dias_faturados": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dias Faturados"
+          },
+          "vencimento": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Vencimento"
+          },
+          "dados_extraidos": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dados Extraidos"
+          },
+          "alertas": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Alertas"
+          },
+          "distribuidora_detectada_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Distribuidora Detectada Id"
+          },
+          "hint_usado": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Hint Usado"
+          },
+          "atualizado_em": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Atualizado Em"
+          },
+          "codigo_uc": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Codigo Uc"
+          },
+          "subgrupo": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Subgrupo"
+          },
+          "modalidade": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Modalidade"
+          },
+          "tipo_rede": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tipo Rede"
+          },
+          "validada_em": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Validada Em"
+          },
+          "itens": {
+            "items": {
+              "$ref": "#/components/schemas/FaturaItemResponse"
+            },
+            "type": "array",
+            "title": "Itens",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "uc_id",
+          "status",
+          "origem",
+          "mes_referencia",
+          "valor_total",
+          "confianca_minima",
+          "criado_em",
+          "arquivo_id",
+          "leitura_anterior",
+          "leitura_atual",
+          "dias_faturados",
+          "vencimento",
+          "dados_extraidos",
+          "alertas",
+          "distribuidora_detectada_id",
+          "hint_usado",
+          "atualizado_em",
+          "codigo_uc",
+          "subgrupo",
+          "modalidade",
+          "tipo_rede",
+          "validada_em"
+        ],
+        "title": "FaturaResponse"
+      },
+      "FaturaResumo": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "uc_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Uc Id"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "origem": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Origem"
+          },
+          "mes_referencia": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mes Referencia"
+          },
+          "valor_total": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Valor Total"
+          },
+          "confianca_minima": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Confianca Minima"
+          },
+          "criado_em": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Criado Em"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "uc_id",
+          "status",
+          "origem",
+          "mes_referencia",
+          "valor_total",
+          "confianca_minima",
+          "criado_em"
+        ],
+        "title": "FaturaResumo"
+      },
       "FaturaUploadResponse": {
         "properties": {
           "id": {
@@ -1722,6 +2907,92 @@
           "vigencia_inicio"
         ],
         "title": "HintDistribuidoraVersionCreate"
+      },
+      "ItemDados": {
+        "properties": {
+          "descricao": {
+            "type": "string",
+            "maxLength": 255,
+            "title": "Descricao"
+          },
+          "categoria": {
+            "$ref": "#/components/schemas/CategoriaItem"
+          },
+          "posto": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "PONTA",
+                  "FORA_PONTA",
+                  "UNICO"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Posto"
+          },
+          "unidade": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 16
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unidade"
+          },
+          "quantidade": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Quantidade"
+          },
+          "tarifa_unitaria": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tarifa Unitaria"
+          },
+          "valor": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Valor"
+          }
+        },
+        "type": "object",
+        "required": [
+          "descricao",
+          "categoria",
+          "valor"
+        ],
+        "title": "ItemDados"
       },
       "LoginRequest": {
         "properties": {

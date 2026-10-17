@@ -223,10 +223,96 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /** Listar */
+        get: operations["listar_api_v1_faturas_get"];
         put?: never;
         /** Upload Fatura */
         post: operations["upload_fatura_api_v1_faturas_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/faturas/{fatura_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Detalhar */
+        get: operations["detalhar_api_v1_faturas__fatura_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/faturas/{fatura_id}/arquivo": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Baixar Arquivo */
+        get: operations["baixar_arquivo_api_v1_faturas__fatura_id__arquivo_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/faturas/{fatura_id}/dados": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Revisar Dados */
+        put: operations["revisar_dados_api_v1_faturas__fatura_id__dados_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/faturas/{fatura_id}/validar": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Validar */
+        post: operations["validar_api_v1_faturas__fatura_id__validar_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/faturas/{fatura_id}/reextrair": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Reextrair */
+        post: operations["reextrair_api_v1_faturas__fatura_id__reextrair_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -249,6 +335,11 @@ export interface components {
             /** Unidade Id */
             unidade_id?: string | null;
         };
+        /**
+         * CategoriaItem
+         * @enum {string}
+         */
+        CategoriaItem: "DEMANDA" | "DEMANDA_ULTRAPASSAGEM" | "CONSUMO_TUSD" | "CONSUMO_TE" | "ENERGIA_REATIVA_EXCEDENTE" | "DEMANDA_REATIVA_EXCEDENTE" | "BANDEIRA" | "ILUMINACAO_PUBLICA" | "MULTA_JUROS" | "AJUSTE_CREDITO_DEBITO" | "TRIBUTO_INFORMATIVO" | "OUTROS";
         /** ClienteCreate */
         ClienteCreate: {
             /** Razao Social */
@@ -372,6 +463,175 @@ export interface components {
              */
             atualizado_em: string;
         };
+        /**
+         * DadosFaturaUpdate
+         * @description Valores revisados; campos ausentes permanecem como estão. Alíquotas em fração (0.18).
+         */
+        DadosFaturaUpdate: {
+            /** Uc Id */
+            uc_id?: string | null;
+            /** Codigo Uc */
+            codigo_uc?: string | null;
+            /** Subgrupo */
+            subgrupo?: ("A1" | "A2" | "A3" | "A3a" | "A4" | "AS") | null;
+            /** Modalidade */
+            modalidade?: ("AZUL" | "VERDE" | "CONVENCIONAL") | null;
+            /** Tipo Rede */
+            tipo_rede?: ("AEREA" | "SUBTERRANEA") | null;
+            /** Mes Referencia */
+            mes_referencia?: string | null;
+            /** Leitura Anterior */
+            leitura_anterior?: string | null;
+            /** Leitura Atual */
+            leitura_atual?: string | null;
+            /** Dias Faturados */
+            dias_faturados?: number | null;
+            /** Vencimento */
+            vencimento?: string | null;
+            /** Dc Ponta Kw */
+            dc_ponta_kw?: number | string | null;
+            /** Dc Fora Ponta Kw */
+            dc_fora_ponta_kw?: number | string | null;
+            /** Dc Unica Kw */
+            dc_unica_kw?: number | string | null;
+            /** Dm Ponta Kw */
+            dm_ponta_kw?: number | string | null;
+            /** Dm Fora Ponta Kw */
+            dm_fora_ponta_kw?: number | string | null;
+            /** Consumo Ponta Kwh */
+            consumo_ponta_kwh?: number | string | null;
+            /** Consumo Fora Ponta Kwh */
+            consumo_fora_ponta_kwh?: number | string | null;
+            /** Reativo Ponta Kvarh */
+            reativo_ponta_kvarh?: number | string | null;
+            /** Reativo Fora Ponta Kvarh */
+            reativo_fora_ponta_kvarh?: number | string | null;
+            /** Fator Potencia */
+            fator_potencia?: number | string | null;
+            /** Icms Aliquota */
+            icms_aliquota?: number | string | null;
+            /** Pis Aliquota */
+            pis_aliquota?: number | string | null;
+            /** Cofins Aliquota */
+            cofins_aliquota?: number | string | null;
+            /** Bandeira */
+            bandeira?: ("VERDE" | "AMARELA" | "VERMELHA_1" | "VERMELHA_2") | null;
+            /** Valor Total */
+            valor_total?: number | string | null;
+            /** Itens */
+            itens?: components["schemas"]["ItemDados"][] | null;
+        };
+        /** FaturaItemResponse */
+        FaturaItemResponse: {
+            /** Ordem */
+            ordem: number;
+            /** Descricao */
+            descricao: string;
+            /** Categoria */
+            categoria: string;
+            /** Posto */
+            posto: string | null;
+            /** Unidade */
+            unidade: string | null;
+            /** Quantidade */
+            quantidade: string | null;
+            /** Tarifa Unitaria */
+            tarifa_unitaria: string | null;
+            /** Valor */
+            valor: string;
+        };
+        /** FaturaResponse */
+        FaturaResponse: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Uc Id */
+            uc_id: string | null;
+            /** Status */
+            status: string;
+            /** Origem */
+            origem: string | null;
+            /** Mes Referencia */
+            mes_referencia: string | null;
+            /** Valor Total */
+            valor_total: string | null;
+            /** Confianca Minima */
+            confianca_minima: string | null;
+            /**
+             * Criado Em
+             * Format: date-time
+             */
+            criado_em: string;
+            /** Arquivo Id */
+            arquivo_id: string | null;
+            /** Leitura Anterior */
+            leitura_anterior: string | null;
+            /** Leitura Atual */
+            leitura_atual: string | null;
+            /** Dias Faturados */
+            dias_faturados: number | null;
+            /** Vencimento */
+            vencimento: string | null;
+            /** Dados Extraidos */
+            dados_extraidos: {
+                [key: string]: unknown;
+            } | null;
+            /** Alertas */
+            alertas: {
+                [key: string]: unknown;
+            }[];
+            /** Distribuidora Detectada Id */
+            distribuidora_detectada_id: string | null;
+            /** Hint Usado */
+            hint_usado: string | null;
+            /**
+             * Atualizado Em
+             * Format: date-time
+             */
+            atualizado_em: string;
+            /** Codigo Uc */
+            codigo_uc: string | null;
+            /** Subgrupo */
+            subgrupo: string | null;
+            /** Modalidade */
+            modalidade: string | null;
+            /** Tipo Rede */
+            tipo_rede: string | null;
+            /** Validada Em */
+            validada_em: string | null;
+            /**
+             * Itens
+             * @default []
+             */
+            itens: components["schemas"]["FaturaItemResponse"][];
+        };
+        /** FaturaResumo */
+        FaturaResumo: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Uc Id */
+            uc_id: string | null;
+            /** Status */
+            status: string;
+            /** Origem */
+            origem: string | null;
+            /** Mes Referencia */
+            mes_referencia: string | null;
+            /** Valor Total */
+            valor_total: string | null;
+            /** Confianca Minima */
+            confianca_minima: string | null;
+            /**
+             * Criado Em
+             * Format: date-time
+             */
+            criado_em: string;
+        };
         /** FaturaUploadResponse */
         FaturaUploadResponse: {
             /**
@@ -451,6 +711,22 @@ export interface components {
              * Format: date
              */
             vigencia_inicio: string;
+        };
+        /** ItemDados */
+        ItemDados: {
+            /** Descricao */
+            descricao: string;
+            categoria: components["schemas"]["CategoriaItem"];
+            /** Posto */
+            posto?: ("PONTA" | "FORA_PONTA" | "UNICO") | null;
+            /** Unidade */
+            unidade?: string | null;
+            /** Quantidade */
+            quantidade?: number | string | null;
+            /** Tarifa Unitaria */
+            tarifa_unitaria?: number | string | null;
+            /** Valor */
+            valor: number | string;
         };
         /** LoginRequest */
         LoginRequest: {
@@ -1326,6 +1602,40 @@ export interface operations {
             };
         };
     };
+    listar_api_v1_faturas_get: {
+        parameters: {
+            query?: {
+                status?: string | null;
+                uc_id?: string | null;
+                limite?: number;
+                deslocamento?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FaturaResumo"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     upload_fatura_api_v1_faturas_post: {
         parameters: {
             query?: never;
@@ -1340,6 +1650,165 @@ export interface operations {
                 "multipart/form-data": components["schemas"]["Body_upload_fatura_api_v1_faturas_post"];
             };
         };
+        responses: {
+            /** @description Successful Response */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FaturaUploadResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    detalhar_api_v1_faturas__fatura_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                fatura_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FaturaResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    baixar_arquivo_api_v1_faturas__fatura_id__arquivo_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                fatura_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    revisar_dados_api_v1_faturas__fatura_id__dados_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                fatura_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DadosFaturaUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FaturaResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    validar_api_v1_faturas__fatura_id__validar_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                fatura_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FaturaResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    reextrair_api_v1_faturas__fatura_id__reextrair_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                fatura_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             202: {

@@ -1223,7 +1223,7 @@ Acurácia por campo e distribuidora:
 - [x] **T-5.3b Hints por distribuidora.** Criar `prompts/hints/<sigla>.md` para cada distribuidora prioritária (§3.9.3): ENEL SP/RJ, EDP SP/ES, CPFL Paulista/Piratininga, Elektro, e `_generico.md`. *Aceite:* extração com hint melhora acurácia em ≥ 5% para a distribuidora correspondente (medido no T-5.8).
 - [x] **T-5.4 `LLMProvider`.** Interface (§10.2), um adaptador real, `FakeProvider` para testes, retries, fallback, medição de tokens/custo, cache. *Aceite:* nenhum teste de CI faz chamada de rede.
 - [x] **T-5.5 Extração e validação (E3–E5).** Schema (Anexo E), prompt (Anexo F) + hints, regras §10.3 e §10.3.1.
-- [ ] **T-5.6 Pipeline e revisão.** `JobRunner` com `BackgroundTasks`, máquina de estados (§4.4), `PUT /faturas/{id}/dados`, `validar`, `reextrair`.
+- [x] **T-5.6 Pipeline e revisão.** `JobRunner` com `BackgroundTasks`, máquina de estados (§4.4), `PUT /faturas/{id}/dados`, `validar`, `reextrair`.
 - [ ] **T-5.7 Checagem cruzada (E6)** para PDF nativo, **parametrizada por distribuidora**.
 - [ ] **T-5.8 Avaliação.** `docs/fixtures-guide.md`, fixtures anonimizadas **por distribuidora** e `make eval-extraction` (acurácia por campo/distribuidora/hint, custo, latência).
 

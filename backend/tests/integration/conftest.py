@@ -3,7 +3,10 @@ from __future__ import annotations
 from collections.abc import Iterator
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
+from decimal import Decimal
 from pathlib import Path
+from types import SimpleNamespace
+from typing import Any
 from uuid import UUID, uuid4
 
 import pytest
@@ -22,10 +25,14 @@ from app.db.models import (
     UnidadeConsumidora,
     Usuario,
 )
+from app.integrations.llm.base import LLMError, LLMPermanentError
+from app.integrations.llm.extrator import Alvo, ExtratorLLM
+from app.integrations.llm.fake import FakeProvider
 from app.integrations.storage import LocalStorage
 from app.main import app
 from app.modules.auth.security import create_token
-from app.modules.faturas.router import get_storage
+from app.modules.faturas import pipeline, revisao
+from app.modules.faturas.router import get_extrator, get_storage
 from sqlalchemy import delete
 
 
@@ -38,10 +45,16 @@ class FaturasEnv:
     distribuidora: UUID
     headers: dict[str, dict[str, str]]
     storage: LocalStorage
+    llm: dict[str, dict[str, Any] | LLMError]
 
 
 @pytest.fixture
-def faturas_env(tmp_path: Path) -> Iterator[FaturasEnv]:
+def faturas_env(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Iterator[FaturasEnv]:
+    parametros = SimpleNamespace(tolerancia_divergencia_item_rs=Decimal("0.05"))
+    for modulo in (pipeline, revisao):
+        monkeypatch.setattr(
+            modulo, "carregar_parametros_regulatorios", lambda *_a, **_k: parametros
+        )
     org_a, org_b, distribuidora = uuid4(), uuid4(), uuid4()
     cliente_a, cliente_b = uuid4(), uuid4()
     unidade_a, unidade_b = uuid4(), uuid4()
@@ -121,9 +134,13 @@ def faturas_env(tmp_path: Path) -> Iterator[FaturasEnv]:
         for name in roles
     }
     storage = LocalStorage(tmp_path)
+    llm: dict[str, dict[str, Any] | LLMError] = {"resposta": LLMPermanentError("sem resposta")}
+    extrator = ExtratorLLM(Alvo(FakeProvider(lambda _texto: llm["resposta"]), "fake-model"))
     app.dependency_overrides[get_storage] = lambda: storage
-    yield FaturasEnv(org_a, org_b, unidade_a, unidade_b, distribuidora, headers, storage)
+    app.dependency_overrides[get_extrator] = lambda: extrator
+    yield FaturasEnv(org_a, org_b, unidade_a, unidade_b, distribuidora, headers, storage, llm)
     app.dependency_overrides.pop(get_storage, None)
+    app.dependency_overrides.pop(get_extrator, None)
 
     orgs = [org_a, org_b]
     with SessionLocal.begin() as session:
