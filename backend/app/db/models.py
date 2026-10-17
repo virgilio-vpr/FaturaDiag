@@ -559,3 +559,21 @@ class SimulacaoACL(TenantMixin, TimestampMixin, Base):
     cenario: Mapped[str] = mapped_column(String(16), nullable=False)
     premissas: Mapped[dict[str, object]] = mapped_column(JSONB, nullable=False)
     resultado: Mapped[dict[str, object]] = mapped_column(JSONB, nullable=False)
+
+
+class Relatorio(TenantMixin, Base):
+    __tablename__ = "relatorio"
+    __table_args__ = (
+        UniqueConstraint("diagnostico_id", "versao", name="uq_relatorio_diagnostico_versao"),
+    )
+
+    diagnostico_id: Mapped[UUID] = mapped_column(
+        ForeignKey("diagnostico.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+    arquivo_id: Mapped[UUID] = mapped_column(ForeignKey("arquivo.id"), nullable=False)
+    versao: Mapped[int] = mapped_column(Integer, nullable=False)
+    template: Mapped[str] = mapped_column(String(64), nullable=False)
+    gerado_por: Mapped[UUID | None] = mapped_column(ForeignKey("usuario.id"), nullable=True)
+    gerado_em: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )

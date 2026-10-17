@@ -26,6 +26,7 @@ from app.db.models import (
     FaturaItem,
     MedicaoIntervalo,
     Organizacao,
+    Relatorio,
     SimulacaoACL,
     Tarifa,
     UnidadeConsumidora,
@@ -155,6 +156,7 @@ def faturas_env(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Iterator[Fat
         )
         session.execute(delete(Tarifa).where(Tarifa.distribuidora_id == distribuidora))
         for model in (
+            Relatorio,
             SimulacaoACL,
             DiagnosticoAchado,
             Diagnostico,

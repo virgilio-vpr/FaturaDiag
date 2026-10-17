@@ -1926,6 +1926,100 @@
           }
         ]
       }
+    },
+    "/api/v1/diagnosticos/{diagnostico_id}/relatorio": {
+      "post": {
+        "tags": [
+          "relatorios"
+        ],
+        "summary": "Post Relatorio",
+        "operationId": "post_relatorio_api_v1_diagnosticos__diagnostico_id__relatorio_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "diagnostico_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Diagnostico Id"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RelatorioResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/relatorios/{relatorio_id}/download": {
+      "get": {
+        "tags": [
+          "relatorios"
+        ],
+        "summary": "Get Download",
+        "operationId": "get_download_api_v1_relatorios__relatorio_id__download_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "relatorio_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Relatorio Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -4289,6 +4383,60 @@
           "refresh_token"
         ],
         "title": "RefreshRequest"
+      },
+      "RelatorioResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "diagnostico_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Diagnostico Id"
+          },
+          "versao": {
+            "type": "integer",
+            "title": "Versao"
+          },
+          "template": {
+            "type": "string",
+            "title": "Template"
+          },
+          "gerado_por": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Gerado Por"
+          },
+          "gerado_em": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Gerado Em"
+          },
+          "download_url": {
+            "type": "string",
+            "title": "Download Url"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "diagnostico_id",
+          "versao",
+          "template",
+          "gerado_por",
+          "gerado_em",
+          "download_url"
+        ],
+        "title": "RelatorioResponse"
       },
       "ResumoMedicoesResponse": {
         "properties": {

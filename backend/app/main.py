@@ -18,6 +18,7 @@ from app.modules.clientes.router import router as clientes_router
 from app.modules.diagnosticos.router import router as diagnosticos_router
 from app.modules.faturas.router import router as faturas_router
 from app.modules.medicoes.router import router as medicoes_router
+from app.modules.relatorios.router import router as relatorios_router
 from app.modules.tarifas.hints_router import router as hints_router
 from app.modules.tarifas.parametros_router import router as parametros_router
 from app.modules.unidades.router import router as unidades_router
@@ -45,6 +46,7 @@ app.include_router(hints_router, prefix="/api/v1")
 app.include_router(faturas_router, prefix="/api/v1")
 app.include_router(medicoes_router, prefix="/api/v1")
 app.include_router(diagnosticos_router, prefix="/api/v1")
+app.include_router(relatorios_router, prefix="/api/v1")
 
 NextHandler = Callable[[Request], Awaitable[Response]]
 

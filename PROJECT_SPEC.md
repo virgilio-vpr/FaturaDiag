@@ -1244,7 +1244,7 @@ Acurácia por campo e distribuidora:
 
 - [x] **T-8.1 Gráficos** server-side (SVG).
 - [x] **T-8.2 Template e renderização** (§12) com marca da organização.
-- [ ] **T-8.3 Endpoint assíncrono**, armazenamento, versionamento e download.
+- [x] **T-8.3 Endpoint assíncrono**, armazenamento, versionamento e download.
 
 ### Fase 9 — Frontend
 
