@@ -450,3 +450,33 @@ class Extracao(TenantMixin, Base):
     criado_em: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), nullable=False, server_default=func.now()
     )
+
+
+class MedicaoIntervalo(TenantMixin, TimestampMixin, Base):
+    __tablename__ = "medicao_intervalo"
+    __table_args__ = (
+        UniqueConstraint("uc_id", "ts_inicio", name="uq_medicao_uc_inicio"),
+        CheckConstraint("intervalo_min IN (5, 15, 60)", name="ck_medicao_intervalo_min"),
+        CheckConstraint("kwh_ativo >= 0", name="ck_medicao_kwh_nao_negativo"),
+        CheckConstraint(
+            "(kvarh_indutivo IS NULL OR kvarh_indutivo >= 0) "
+            "AND (kvarh_capacitivo IS NULL OR kvarh_capacitivo >= 0)",
+            name="ck_medicao_reativo_nao_negativo",
+        ),
+        CheckConstraint(
+            "fonte IN ('DISTRIBUIDORA', 'MEDIDOR_PARALELO')",
+            name="ck_medicao_fonte",
+        ),
+        Index("ix_medicao_organizacao_uc_ts", "organizacao_id", "uc_id", "ts_inicio"),
+    )
+
+    uc_id: Mapped[UUID] = mapped_column(
+        ForeignKey("unidade_consumidora.id", ondelete="CASCADE"), nullable=False
+    )
+    ts_inicio: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    intervalo_min: Mapped[int] = mapped_column(Integer, nullable=False)
+    kwh_ativo: Mapped[Decimal] = mapped_column(Numeric(18, 6), nullable=False)
+    kvarh_indutivo: Mapped[Decimal | None] = mapped_column(Numeric(18, 6), nullable=True)
+    kvarh_capacitivo: Mapped[Decimal | None] = mapped_column(Numeric(18, 6), nullable=True)
+    fonte: Mapped[str] = mapped_column(String(24), nullable=False)
+    arquivo_id: Mapped[UUID | None] = mapped_column(ForeignKey("arquivo.id"), nullable=True)

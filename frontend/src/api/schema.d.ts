@@ -319,6 +319,40 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/unidades/{uc_id}/medicoes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Upload Medicoes */
+        post: operations["upload_medicoes_api_v1_unidades__uc_id__medicoes_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/unidades/{uc_id}/medicoes/resumo": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Resumo Medicoes */
+        get: operations["resumo_medicoes_api_v1_unidades__uc_id__medicoes_resumo_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -334,6 +368,13 @@ export interface components {
             arquivo: string;
             /** Unidade Id */
             unidade_id?: string | null;
+        };
+        /** Body_upload_medicoes_api_v1_unidades__uc_id__medicoes_post */
+        Body_upload_medicoes_api_v1_unidades__uc_id__medicoes_post: {
+            /** Arquivo */
+            arquivo: string;
+            /** Perfil */
+            perfil?: string | null;
         };
         /**
          * CategoriaItem
@@ -712,6 +753,28 @@ export interface components {
              */
             vigencia_inicio: string;
         };
+        /** ImportacaoMedicoesResponse */
+        ImportacaoMedicoesResponse: {
+            /**
+             * Uc Id
+             * Format: uuid
+             */
+            uc_id: string;
+            /** Registros */
+            registros: number;
+            /** Registros Afetados */
+            registros_afetados: number;
+            /** Intervalo Min */
+            intervalo_min: number;
+            /** Fonte */
+            fonte: string;
+            /** Completude Pct */
+            completude_pct: string;
+            /** Lacunas */
+            lacunas: number;
+            /** Alertas */
+            alertas: string[];
+        };
         /** ItemDados */
         ItemDados: {
             /** Descricao */
@@ -805,6 +868,66 @@ export interface components {
         RefreshRequest: {
             /** Refresh Token */
             refresh_token: string;
+        };
+        /** ResumoMedicoesResponse */
+        ResumoMedicoesResponse: {
+            /**
+             * Uc Id
+             * Format: uuid
+             */
+            uc_id: string;
+            /**
+             * Periodo Inicio
+             * Format: date
+             */
+            periodo_inicio: string;
+            /**
+             * Periodo Fim
+             * Format: date
+             */
+            periodo_fim: string;
+            /** Registros */
+            registros: number;
+            /** Completude Pct */
+            completude_pct: string;
+            /** Fontes */
+            fontes: string[];
+            /** Ressalvas */
+            ressalvas: string[];
+            /** Parametros Pendentes */
+            parametros_pendentes: string[];
+            /** Dm Por Mes */
+            dm_por_mes: {
+                [key: string]: unknown;
+            }[];
+            /** Fator De Carga Por Mes */
+            fator_de_carga_por_mes: {
+                [key: string]: unknown;
+            }[];
+            /** Fp Horario */
+            fp_horario: {
+                [key: string]: unknown;
+            }[];
+            /** Horas Fp Abaixo Referencia */
+            horas_fp_abaixo_referencia: number;
+            /** Reativos Por Mes */
+            reativos_por_mes: {
+                [key: string]: unknown;
+            }[];
+            /** Curva Tipica */
+            curva_tipica: {
+                [key: string]: unknown;
+            }[];
+            /** Ultrapassagens */
+            ultrapassagens: {
+                [key: string]: unknown;
+            }[];
+            /** Horas Ultrapassagem */
+            horas_ultrapassagem: {
+                [key: string]: unknown;
+            }[];
+            /** Alertas */
+            alertas: string[];
         };
         /**
          * Subgrupo
@@ -1817,6 +1940,75 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["FaturaUploadResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    upload_medicoes_api_v1_unidades__uc_id__medicoes_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                uc_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["Body_upload_medicoes_api_v1_unidades__uc_id__medicoes_post"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ImportacaoMedicoesResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    resumo_medicoes_api_v1_unidades__uc_id__medicoes_resumo_get: {
+        parameters: {
+            query: {
+                inicio: string;
+                fim: string;
+            };
+            header?: never;
+            path: {
+                uc_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ResumoMedicoesResponse"];
                 };
             };
             /** @description Validation Error */

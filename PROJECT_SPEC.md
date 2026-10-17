@@ -1150,10 +1150,10 @@ Acurácia por campo e distribuidora:
 | 0 | Fundação (repo, Docker, esqueleto, CI) | `[x]` |
 | 1 | Identidade, RBAC e multi-tenancy | `[x]` |
 | 2 | Cadastros (clientes, UCs, contratos, distribuidoras) | `[x]` |
-| 3 | Tarifas e parâmetros regulatórios | `[ ]` |
-| 4 | **Motor de cálculo** (domínio puro, TDD) | `[ ]` |
-| 5 | Ingestão e extração por IA | `[ ]` |
-| 6 | Memória de massa | `[ ]` |
+| 3 | Tarifas e parâmetros regulatórios | `[x]` |
+| 4 | **Motor de cálculo** (domínio puro, TDD) | `[x]` |
+| 5 | Ingestão e extração por IA | `[x]` |
+| 6 | Memória de massa | `[x]` |
 | 7 | Diagnóstico (orquestração e API) | `[ ]` |
 | 8 | Relatório PDF | `[ ]` |
 | 9 | Frontend | `[ ]` |
@@ -1229,10 +1229,10 @@ Acurácia por campo e distribuidora:
 
 ### Fase 6 — Memória de massa
 
-- [ ] **T-6.1 Parser e perfis** (§11.1) com validação de lacunas/duplicatas.
-- [ ] **T-6.2 Persistência em lote** idempotente.
-- [ ] **T-6.3 Análises** (§11.2): Dm por posto, FC, FP horário, ERE/DRE simuladas, curva típica.
-- [ ] **T-6.4 Endpoints** de upload e resumo.
+- [x] **T-6.1 Parser e perfis** (§11.1) com validação de lacunas/duplicatas.
+- [x] **T-6.2 Persistência em lote** idempotente.
+- [x] **T-6.3 Análises** (§11.2): Dm por posto, FC, FP horário, ERE/DRE simuladas, curva típica.
+- [x] **T-6.4 Endpoints** de upload e resumo.
 
 ### Fase 7 — Diagnóstico (orquestração e API)
 

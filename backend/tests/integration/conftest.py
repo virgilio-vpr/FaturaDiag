@@ -21,6 +21,7 @@ from app.db.models import (
     Extracao,
     Fatura,
     FaturaItem,
+    MedicaoIntervalo,
     Organizacao,
     UnidadeConsumidora,
     Usuario,
@@ -144,7 +145,16 @@ def faturas_env(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Iterator[Fat
 
     orgs = [org_a, org_b]
     with SessionLocal.begin() as session:
-        for model in (Extracao, FaturaItem, Fatura, Arquivo, AuditLog, UnidadeConsumidora, Cliente):
+        for model in (
+            Extracao,
+            FaturaItem,
+            Fatura,
+            Arquivo,
+            MedicaoIntervalo,
+            AuditLog,
+            UnidadeConsumidora,
+            Cliente,
+        ):
             session.execute(delete(model).where(model.organizacao_id.in_(orgs)))
         session.execute(delete(AuthSession).where(AuthSession.id.in_(list(sessions.values()))))
         session.execute(delete(Usuario).where(Usuario.id.in_(list(users.values()))))

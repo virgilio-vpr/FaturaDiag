@@ -24,6 +24,8 @@ dependencies = [
     "tenacity>=9.2.1",
     "boto3>=1.43.114",
     "httpx>=0.28.1",
+    "pandas>=2.2.3",
+    "openpyxl>=3.1.5",
 ]
 
 [dependency-groups]
@@ -36,6 +38,8 @@ dev = [
     "pre-commit",
     "pytest",
     "pytest-cov",
+    "pandas-stubs>=2.2.3",
+    "types-openpyxl>=3.1.5",
     "ruff",
 ]
 

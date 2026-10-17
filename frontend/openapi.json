@@ -1429,6 +1429,132 @@
           }
         }
       }
+    },
+    "/api/v1/unidades/{uc_id}/medicoes": {
+      "post": {
+        "tags": [
+          "medicoes"
+        ],
+        "summary": "Upload Medicoes",
+        "operationId": "upload_medicoes_api_v1_unidades__uc_id__medicoes_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "uc_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Uc Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_upload_medicoes_api_v1_unidades__uc_id__medicoes_post"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImportacaoMedicoesResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/unidades/{uc_id}/medicoes/resumo": {
+      "get": {
+        "tags": [
+          "medicoes"
+        ],
+        "summary": "Resumo Medicoes",
+        "operationId": "resumo_medicoes_api_v1_unidades__uc_id__medicoes_resumo_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "uc_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Uc Id"
+            }
+          },
+          {
+            "name": "inicio",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "Inicio"
+            }
+          },
+          {
+            "name": "fim",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "title": "Fim"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResumoMedicoesResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1466,6 +1592,31 @@
           "arquivo"
         ],
         "title": "Body_upload_fatura_api_v1_faturas_post"
+      },
+      "Body_upload_medicoes_api_v1_unidades__uc_id__medicoes_post": {
+        "properties": {
+          "arquivo": {
+            "type": "string",
+            "contentMediaType": "application/octet-stream",
+            "title": "Arquivo"
+          },
+          "perfil": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Perfil"
+          }
+        },
+        "type": "object",
+        "required": [
+          "arquivo"
+        ],
+        "title": "Body_upload_medicoes_api_v1_unidades__uc_id__medicoes_post"
       },
       "CategoriaItem": {
         "type": "string",
@@ -2908,6 +3059,58 @@
         ],
         "title": "HintDistribuidoraVersionCreate"
       },
+      "ImportacaoMedicoesResponse": {
+        "properties": {
+          "uc_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Uc Id"
+          },
+          "registros": {
+            "type": "integer",
+            "title": "Registros"
+          },
+          "registros_afetados": {
+            "type": "integer",
+            "title": "Registros Afetados"
+          },
+          "intervalo_min": {
+            "type": "integer",
+            "title": "Intervalo Min"
+          },
+          "fonte": {
+            "type": "string",
+            "title": "Fonte"
+          },
+          "completude_pct": {
+            "type": "string",
+            "title": "Completude Pct"
+          },
+          "lacunas": {
+            "type": "integer",
+            "title": "Lacunas"
+          },
+          "alertas": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Alertas"
+          }
+        },
+        "type": "object",
+        "required": [
+          "uc_id",
+          "registros",
+          "registros_afetados",
+          "intervalo_min",
+          "fonte",
+          "completude_pct",
+          "lacunas",
+          "alertas"
+        ],
+        "title": "ImportacaoMedicoesResponse"
+      },
       "ItemDados": {
         "properties": {
           "descricao": {
@@ -3212,6 +3415,142 @@
           "refresh_token"
         ],
         "title": "RefreshRequest"
+      },
+      "ResumoMedicoesResponse": {
+        "properties": {
+          "uc_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Uc Id"
+          },
+          "periodo_inicio": {
+            "type": "string",
+            "format": "date",
+            "title": "Periodo Inicio"
+          },
+          "periodo_fim": {
+            "type": "string",
+            "format": "date",
+            "title": "Periodo Fim"
+          },
+          "registros": {
+            "type": "integer",
+            "title": "Registros"
+          },
+          "completude_pct": {
+            "type": "string",
+            "title": "Completude Pct"
+          },
+          "fontes": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Fontes"
+          },
+          "ressalvas": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Ressalvas"
+          },
+          "parametros_pendentes": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Parametros Pendentes"
+          },
+          "dm_por_mes": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Dm Por Mes"
+          },
+          "fator_de_carga_por_mes": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Fator De Carga Por Mes"
+          },
+          "fp_horario": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Fp Horario"
+          },
+          "horas_fp_abaixo_referencia": {
+            "type": "integer",
+            "title": "Horas Fp Abaixo Referencia"
+          },
+          "reativos_por_mes": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Reativos Por Mes"
+          },
+          "curva_tipica": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Curva Tipica"
+          },
+          "ultrapassagens": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Ultrapassagens"
+          },
+          "horas_ultrapassagem": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Horas Ultrapassagem"
+          },
+          "alertas": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Alertas"
+          }
+        },
+        "type": "object",
+        "required": [
+          "uc_id",
+          "periodo_inicio",
+          "periodo_fim",
+          "registros",
+          "completude_pct",
+          "fontes",
+          "ressalvas",
+          "parametros_pendentes",
+          "dm_por_mes",
+          "fator_de_carga_por_mes",
+          "fp_horario",
+          "horas_fp_abaixo_referencia",
+          "reativos_por_mes",
+          "curva_tipica",
+          "ultrapassagens",
+          "horas_ultrapassagem",
+          "alertas"
+        ],
+        "title": "ResumoMedicoesResponse"
       },
       "Subgrupo": {
         "type": "string",
