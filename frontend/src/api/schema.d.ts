@@ -216,6 +216,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/faturas": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Upload Fatura */
+        post: operations["upload_fatura_api_v1_faturas_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -225,6 +242,13 @@ export interface components {
          * @enum {string}
          */
         AmbienteUnidade: "CATIVO" | "LIVRE";
+        /** Body_upload_fatura_api_v1_faturas_post */
+        Body_upload_fatura_api_v1_faturas_post: {
+            /** Arquivo */
+            arquivo: string;
+            /** Unidade Id */
+            unidade_id?: string | null;
+        };
         /** ClienteCreate */
         ClienteCreate: {
             /** Razao Social */
@@ -347,6 +371,16 @@ export interface components {
              * Format: date-time
              */
             atualizado_em: string;
+        };
+        /** FaturaUploadResponse */
+        FaturaUploadResponse: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Status */
+            status: string;
         };
         /** HTTPValidationError */
         HTTPValidationError: {
@@ -1279,6 +1313,41 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HintDistribuidoraResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    upload_fatura_api_v1_faturas_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "idempotency-key"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["Body_upload_fatura_api_v1_faturas_post"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FaturaUploadResponse"];
                 };
             };
             /** @description Validation Error */

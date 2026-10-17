@@ -342,3 +342,107 @@ class HintDistribuidora(TimestampMixin, Base):
     ativo: Mapped[bool] = mapped_column(
         Boolean, nullable=False, default=False, server_default="false"
     )
+
+
+class Arquivo(TenantMixin, TimestampMixin, Base):
+    __tablename__ = "arquivo"
+    __table_args__ = (UniqueConstraint("organizacao_id", "sha256", name="uq_arquivo_org_sha256"),)
+
+    storage_key: Mapped[str] = mapped_column(String(255), nullable=False)
+    nome_original: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    mime: Mapped[str] = mapped_column(String(64), nullable=False)
+    tamanho_bytes: Mapped[int] = mapped_column(Integer, nullable=False)
+    sha256: Mapped[str] = mapped_column(String(64), nullable=False)
+    criado_por: Mapped[UUID | None] = mapped_column(ForeignKey("usuario.id"), nullable=True)
+
+
+class Fatura(TenantMixin, TimestampMixin, Base):
+    __tablename__ = "fatura"
+    __table_args__ = (
+        UniqueConstraint("uc_id", "mes_referencia", name="uq_fatura_uc_mes"),
+        UniqueConstraint("organizacao_id", "idempotency_key", name="uq_fatura_org_idempotency"),
+        CheckConstraint(
+            "status IN ('ENVIADA', 'EXTRAINDO', 'EXTRAIDA', 'EM_REVISAO', "
+            "'VALIDADA', 'DIAGNOSTICADA', 'FALHA_EXTRACAO')",
+            name="ck_fatura_status",
+        ),
+        CheckConstraint(
+            "origem IS NULL OR origem IN ('PDF_NATIVO', 'PDF_ESCANEADO', 'IMAGEM', 'MANUAL')",
+            name="ck_fatura_origem",
+        ),
+    )
+
+    uc_id: Mapped[UUID | None] = mapped_column(
+        ForeignKey("unidade_consumidora.id"), nullable=True, index=True
+    )
+    arquivo_id: Mapped[UUID | None] = mapped_column(ForeignKey("arquivo.id"), nullable=True)
+    idempotency_key: Mapped[str | None] = mapped_column(String(128), nullable=True)
+    status: Mapped[str] = mapped_column(String(24), nullable=False, default="ENVIADA")
+    origem: Mapped[str | None] = mapped_column(String(16), nullable=True)
+    mes_referencia: Mapped[date | None] = mapped_column(Date, nullable=True)
+    leitura_anterior: Mapped[date | None] = mapped_column(Date, nullable=True)
+    leitura_atual: Mapped[date | None] = mapped_column(Date, nullable=True)
+    dias_faturados: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    vencimento: Mapped[date | None] = mapped_column(Date, nullable=True)
+    dados_extraidos: Mapped[dict[str, object] | None] = mapped_column(JSONB, nullable=True)
+    confianca_minima: Mapped[Decimal | None] = mapped_column(Numeric(4, 3), nullable=True)
+    alertas: Mapped[list[dict[str, object]]] = mapped_column(
+        JSONB, nullable=False, default=list, server_default="[]"
+    )
+    distribuidora_detectada_id: Mapped[UUID | None] = mapped_column(
+        ForeignKey("distribuidora.id"), nullable=True
+    )
+    hint_usado: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    dc_ponta_kw: Mapped[Decimal | None] = mapped_column(Numeric(14, 3), nullable=True)
+    dc_fora_ponta_kw: Mapped[Decimal | None] = mapped_column(Numeric(14, 3), nullable=True)
+    dc_unica_kw: Mapped[Decimal | None] = mapped_column(Numeric(14, 3), nullable=True)
+    dm_ponta_kw: Mapped[Decimal | None] = mapped_column(Numeric(14, 3), nullable=True)
+    dm_fora_ponta_kw: Mapped[Decimal | None] = mapped_column(Numeric(14, 3), nullable=True)
+    consumo_ponta_kwh: Mapped[Decimal | None] = mapped_column(Numeric(16, 3), nullable=True)
+    consumo_fora_ponta_kwh: Mapped[Decimal | None] = mapped_column(Numeric(16, 3), nullable=True)
+    reativo_ponta_kvarh: Mapped[Decimal | None] = mapped_column(Numeric(16, 3), nullable=True)
+    reativo_fora_ponta_kvarh: Mapped[Decimal | None] = mapped_column(Numeric(16, 3), nullable=True)
+    fator_potencia: Mapped[Decimal | None] = mapped_column(Numeric(5, 4), nullable=True)
+    icms_aliquota: Mapped[Decimal | None] = mapped_column(Numeric(7, 6), nullable=True)
+    pis_aliquota: Mapped[Decimal | None] = mapped_column(Numeric(7, 6), nullable=True)
+    cofins_aliquota: Mapped[Decimal | None] = mapped_column(Numeric(7, 6), nullable=True)
+    bandeira: Mapped[str | None] = mapped_column(String(24), nullable=True)
+    valor_total: Mapped[Decimal | None] = mapped_column(Numeric(16, 2), nullable=True)
+    validada_por: Mapped[UUID | None] = mapped_column(ForeignKey("usuario.id"), nullable=True)
+    validada_em: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+
+
+class FaturaItem(TenantMixin, Base):
+    __tablename__ = "fatura_item"
+
+    fatura_id: Mapped[UUID] = mapped_column(ForeignKey("fatura.id"), nullable=False, index=True)
+    ordem: Mapped[int] = mapped_column(Integer, nullable=False)
+    descricao: Mapped[str] = mapped_column(String(255), nullable=False)
+    categoria: Mapped[str] = mapped_column(String(40), nullable=False)
+    posto: Mapped[str | None] = mapped_column(String(16), nullable=True)
+    unidade: Mapped[str | None] = mapped_column(String(16), nullable=True)
+    quantidade: Mapped[Decimal | None] = mapped_column(Numeric(18, 6), nullable=True)
+    tarifa_unitaria: Mapped[Decimal | None] = mapped_column(Numeric(18, 8), nullable=True)
+    valor: Mapped[Decimal] = mapped_column(Numeric(16, 2), nullable=False)
+
+
+class Extracao(TenantMixin, Base):
+    __tablename__ = "extracao"
+
+    fatura_id: Mapped[UUID] = mapped_column(ForeignKey("fatura.id"), nullable=False, index=True)
+    provider: Mapped[str] = mapped_column(String(32), nullable=False)
+    modelo: Mapped[str] = mapped_column(String(80), nullable=False)
+    prompt_versao: Mapped[str] = mapped_column(String(32), nullable=False)
+    hint_usado: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    metodo: Mapped[str] = mapped_column(String(16), nullable=False)
+    tokens_entrada: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    tokens_saida: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    custo_estimado: Mapped[Decimal] = mapped_column(Numeric(12, 6), nullable=False, default=0)
+    latencia_ms: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    resultado: Mapped[dict[str, object]] = mapped_column(JSONB, nullable=False)
+    validacoes: Mapped[list[dict[str, object]]] = mapped_column(
+        JSONB, nullable=False, default=list, server_default="[]"
+    )
+    criado_em: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
