@@ -21,3 +21,4 @@
 - Adicionado resolvedor de tarifas por distribuidora, subgrupo, modalidade, posto, componente e data, respeitando vigência semiaberta e reportando ausência ou ambiguidade.
 - Adicionado seed versionado dos parâmetros regulatórios, API administrativa restrita a ADMIN, carregador com vigência/cache e objeto de domínio imutável que expõe parâmetros pendentes de validação.
 - Adicionada gestão administrativa de hints por distribuidora, com atualização auditada, versionamento por vigência, resolução histórica semiaberta e indicação de fallback quando não há hint específico.
+- Adicionados tipos, enums, arredondamento `ROUND_HALF_UP` e `trace` imutável do motor de cálculo (T-4.1).
