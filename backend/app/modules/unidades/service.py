@@ -7,6 +7,7 @@ import structlog
 from app.core.audit import registrar_evento_auditoria
 from app.db.models import Cliente, ContratoDemanda, Distribuidora, UnidadeConsumidora
 from app.modules.clientes.repository import ClienteRepository
+from app.modules.diagnosticos.invalidacao import invalidar_por_unidade
 from app.modules.unidades.repository import ContratoRepository, UnidadeRepository
 from app.modules.unidades.schemas import ContratoCreate, UnidadeCreate, UnidadeUpdate
 from sqlalchemy.exc import IntegrityError
@@ -158,8 +159,22 @@ def atualizar_unidade(
         )
 
     before = _unit_snapshot(unit)
+    alterou_insumos = any(
+        campo in changes
+        and getattr(changes[campo], "value", changes[campo]) != getattr(unit, campo)
+        for campo in ("subgrupo", "tipo_rede")
+    )
     for field, value in changes.items():
         setattr(unit, field, value.value if hasattr(value, "value") else value)
+    if alterou_insumos:
+        invalidar_por_unidade(
+            session,
+            organizacao_id=organizacao_id,
+            uc_id=unit.id,
+            motivo="unidade:subgrupo_ou_tipo_rede",
+            usuario_id=usuario_id,
+            ip=ip,
+        )
     _persist_with_audit(
         session,
         organizacao_id=organizacao_id,
@@ -205,6 +220,16 @@ def criar_contrato(
         vigencia_fim=payload.vigencia_fim,
     )
     session.add(contract)
+    invalidar_por_unidade(
+        session,
+        organizacao_id=organizacao_id,
+        uc_id=unit.id,
+        motivo=f"contrato:{contract.id}",
+        usuario_id=usuario_id,
+        inicio=payload.vigencia_inicio,
+        fim=payload.vigencia_fim,
+        ip=ip,
+    )
     _persist_with_audit(
         session,
         organizacao_id=organizacao_id,

@@ -12,6 +12,7 @@ from uuid import UUID
 from app.core.audit import registrar_evento_auditoria
 from app.db.models import ParametroRegulatorio
 from app.domain.energia.parametros import ParametrosRegulatorios
+from app.modules.diagnosticos.invalidacao import invalidar_por_parametro
 from sqlalchemy import or_, select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
@@ -246,6 +247,7 @@ def gravar_parametro_regulatorio(
         record.validado_por = usuario_id if validation else None
         record.validado_em = datetime.now(UTC) if validation else None
     session.flush()
+    _invalidar_diagnosticos(session, chave, before, record)
     if previous is not None and previous_before != _snapshot(previous):
         registrar_evento_auditoria(
             session,
@@ -408,6 +410,22 @@ def _as_decimal(valor: object, chave: str) -> Decimal:
     if not result.is_finite():
         raise ParametroRegulatorioInvalido(f"{chave} deve ser um decimal finito.")
     return result
+
+
+def _invalidar_diagnosticos(
+    session: Session,
+    chave: str,
+    antes: dict[str, object] | None,
+    record: ParametroRegulatorio,
+) -> None:
+    """Marca STALE diagnósticos congelados com a vigência alterada (valor, status ou período)."""
+    campos = ("valor", "status", "vigencia_fim")
+    if antes is not None and all(antes[campo] == getattr(record, campo) for campo in campos):
+        return
+    vigencias = [(record.vigencia_inicio, record.vigencia_fim)]
+    if antes is not None:
+        vigencias.append((record.vigencia_inicio, cast(date | None, antes["vigencia_fim"])))
+    invalidar_por_parametro(session, chave=chave, vigencias=vigencias)
 
 
 def _snapshot(record: ParametroRegulatorio | None) -> dict[str, object] | None:

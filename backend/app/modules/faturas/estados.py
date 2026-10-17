@@ -4,6 +4,7 @@ from uuid import UUID
 
 from app.core.audit import registrar_evento_auditoria
 from app.db.models import Fatura
+from app.modules.diagnosticos.invalidacao import invalidar_por_fatura
 from sqlalchemy.orm import Session
 
 ENVIADA = "ENVIADA"
@@ -61,4 +62,11 @@ def transicionar(
         depois=depois,
         ip=ip,
     )
-    # Fase 7: ao voltar de VALIDADA/DIAGNOSTICADA para EM_REVISAO, marcar diagnósticos como STALE.
+    if destino == EM_REVISAO and origem in (VALIDADA, DIAGNOSTICADA):
+        invalidar_por_fatura(
+            session,
+            organizacao_id=fatura.organizacao_id,
+            fatura_id=fatura.id,
+            usuario_id=usuario_id,
+            ip=ip,
+        )
