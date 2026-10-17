@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>{{ titulo }}</title>
+<style>
+@font-face { font-family: "DejaVu Sans"; font-weight: normal; src: url("{{ fontes_css.regular }}"); }
+@font-face { font-family: "DejaVu Sans"; font-weight: bold; src: url("{{ fontes_css.bold }}"); }
+:root { --cor: {{ cor_primaria }}; }
+@page {
+  size: A4;
+  margin: 18mm 16mm 22mm 16mm;
+  @bottom-left { content: "{{ organizacao.nome | replace('"', '') }} · Diagnóstico v{{ versao_relatorio }}"; font-size: 7.5pt; color: #666; }
+  @bottom-right { content: "Página " counter(page) " de " counter(pages); font-size: 7.5pt; color: #666; }
+}
+body { font-family: "DejaVu Sans", sans-serif; font-size: 9pt; line-height: 1.4; color: #222; }
+h1 { font-size: 16pt; color: var(--cor); margin: 0 0 2mm; }
+h2 { font-size: 11.5pt; color: var(--cor); border-bottom: 1.5px solid var(--cor); padding-bottom: 1mm; margin: 6mm 0 3mm; }
+h3 { font-size: 9.5pt; margin: 0 0 1mm; }
+header { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--cor); padding-bottom: 3mm; }
+header img { max-height: 14mm; max-width: 45mm; }
+.meta { color: #555; font-size: 8.5pt; }
+.destaque { background: #f2f6fa; border-left: 4px solid var(--cor); padding: 3mm 4mm; margin: 3mm 0; }
+.destaque .valor { font-size: 15pt; font-weight: bold; color: var(--cor); }
+.grade { display: flex; gap: 3mm; }
+.grade > div { flex: 1; }
+table { width: 100%; border-collapse: collapse; font-size: 8.5pt; }
+th, td { border: 1px solid #ccc; padding: 1.2mm 2mm; text-align: left; vertical-align: top; }
+th { background: #eef2f6; }
+.achado { border: 1px solid #ccc; padding: 2.5mm 3mm; margin-bottom: 2.5mm; break-inside: avoid; }
+.sev { font-size: 7.5pt; font-weight: bold; padding: 0.4mm 1.5mm; border-radius: 1mm; color: #fff; background: #666; }
+.sev-ALTA { background: #b3261e; } .sev-MEDIA { background: #c77700; } .sev-BAIXA { background: #3b6e8f; }
+.grafico { break-inside: avoid; margin-bottom: 3mm; }
+.grafico svg { width: 100%; height: auto; }
+ul { margin: 1mm 0 1mm 4mm; padding: 0; }
+.ressalva { border: 1px solid #999; padding: 2.5mm; font-size: 8.5pt; background: #fafafa; margin-top: 4mm; }
+.aviso { color: #8a5a00; }
+footer.responsavel { margin-top: 5mm; border-top: 1px solid #999; padding-top: 2mm; font-size: 8.5pt; }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>{{ titulo }}</h1>
+    <div class="meta">
+      {% if cliente %}{{ cliente }}{% if unidade %} · {{ unidade }}{% endif %}<br>{% endif %}
+      {{ escopo }} · Período: {{ periodo }}
+      {% if meses %}({{ meses }} {{ "mês" if meses == 1 else "meses" }}){% endif %}
+    </div>
+  </div>
+  {% if logo_uri %}<img src="{{ logo_uri }}" alt="Logo {{ organizacao.nome }}">{% else %}<strong>{{ organizacao.nome }}</strong>{% endif %}
+</header>
+
+<h2>1. Resumo executivo</h2>
+{% if indicativo %}<p class="aviso"><strong>Resultado indicativo:</strong> o histórico disponível é insuficiente ou incompleto para conclusões firmes.</p>{% endif %}
+<div class="grade">
+  <div class="destaque"><div>Economia anual potencial (estimativa)</div><div class="valor">{{ economia_anual }}</div>
+    {% if faixa_acl %}<div class="meta">ACL: de {{ faixa_acl.conservador }} (conservador) a {{ faixa_acl.base }} (base) por ano</div>{% endif %}</div>
+  <div class="destaque"><div>Economia mensal potencial (estimativa)</div><div class="valor">{{ economia_mensal }}</div></div>
+</div>
+<table>
+  <tr>{% for i in indicadores %}<th>{{ i.rotulo }}</th>{% endfor %}</tr>
+  <tr>{% for i in indicadores %}<td>{{ i.valor }}</td>{% endfor %}</tr>
+</table>
+<h3 style="margin-top:3mm">Principais achados</h3>
+{% if top_achados %}<ol>{% for a in top_achados %}<li><strong>{{ a.titulo }}</strong>{% if a.economia %} — potencial de {{ a.economia }}/ano{% endif %}</li>{% endfor %}</ol>
+{% else %}<p>Nenhum achado identificado com os dados fornecidos.</p>{% endif %}
+
+<h2>2. Achados, evidências e recomendações</h2>
+{% for a in achados %}
+<div class="achado">
+  <h3><span class="sev sev-{{ a.severidade_codigo }}">{{ a.severidade }}</span> {{ a.titulo }}</h3>
+  <p>{{ a.descricao }}</p>
+  {% if a.economia %}<p><strong>Impacto potencial (estimativa):</strong> {{ a.economia }}/ano</p>{% endif %}
+  {% if a.evidencias %}<strong>Evidências</strong><ul>{% for e in a.evidencias %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+  <p><strong>Recomendação:</strong> {{ a.recomendacao }}</p>
+</div>
+{% else %}<p>Sem achados.</p>{% endfor %}
+
+{% if graficos %}
+<h2>3. Gráficos</h2>
+{% for chave, svg in graficos.items() %}<div class="grafico">{{ svg | safe }}</div>{% endfor %}
+{% endif %}
+
+{% if simulacoes_acl %}
+<h2>Simulação de migração ao mercado livre (ACL)</h2>
+<table>
+  <tr><th>Cenário</th><th>Preço (R$/MWh)</th><th>Economia mensal</th><th>Economia anual</th><th>Payback (meses)</th></tr>
+  {% for s in simulacoes_acl %}<tr><td>{{ s.cenario }}</td><td>{{ s.preco }}</td><td>{{ s.economia_mensal }}</td><td>{{ s.economia_anual }}</td><td>{{ s.payback }}</td></tr>{% endfor %}
+</table>
+{% endif %}
+
+<h2>4. Plano de ação priorizado</h2>
+<p class="meta">Ordenado por severidade e economia potencial estimada.</p>
+<table>
+  <tr><th>#</th><th>Ação</th><th>Severidade</th><th>Retorno potencial</th></tr>
+  {% for p in plano %}<tr><td>{{ p.ordem }}</td><td><strong>{{ p.titulo }}</strong><br>{{ p.acao }}</td><td>{{ p.severidade }}</td><td>{{ p.retorno }}</td></tr>
+  {% else %}<tr><td colspan="4">Sem ações recomendadas.</td></tr>{% endfor %}
+</table>
+
+<h2>5. Premissas e ressalvas</h2>
+{% if premissas %}<ul>{% for p in premissas %}<li>{{ p }}</li>{% endfor %}</ul>{% endif %}
+{% if parametros_pendentes %}<p class="aviso">Parâmetros regulatórios pendentes de validação: {{ parametros_pendentes | join(", ") }}.</p>{% endif %}
+<table>
+  <tr><th>Parâmetro regulatório utilizado</th><th>Valor</th></tr>
+  {% for p in parametros %}<tr><td>{{ p.rotulo }}</td><td>{{ p.valor }}{% if p.pendente %} (a validar){% endif %}</td></tr>{% endfor %}
+</table>
+<p class="meta">Motor de cálculo {{ versao_motor }} · Relatório v{{ versao_relatorio }} · Gerado em {{ gerado_em }} · Diagnóstico {{ diagnostico_id }}</p>
+{% if notas %}<p><strong>Notas do analista:</strong> {{ notas }}</p>{% endif %}
+<div class="ressalva">{{ ressalva }}</div>
+
+<footer class="responsavel">
+  <strong>Responsável técnico:</strong>
+  {{ responsavel.nome or "—" }}{% if responsavel.crea %} · {{ "" if responsavel.crea.upper().startswith("CREA") else "CREA " }}{{ responsavel.crea }}{% endif %}{% if responsavel.art %} · ART {{ responsavel.art }}{% endif %}
+</footer>
+</body>
+</html>
